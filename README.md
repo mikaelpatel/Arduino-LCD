@@ -20,7 +20,7 @@ Version: 1.0
 * [Debug, Serial](./src/Adapter/Debug.h)
 * [DFRobot_IIC, PCF8574, TWI](./src/Adapter/DFRobot_IIC.h)
 * [GY_IICLCD, PCF8574, TWI](./src/Adapter/GY_IICLCD.h)
-* [MAX72XX, PCF8574, TWI](./src/Adapter/Debug.h)
+* [MAX72XX, PCF8574, TWI](./src/Adapter/MAX72XX.h)
 * [Port4b, GPIO](./src/Adapter/Port4b.h)
 
 ## Example Sketches
