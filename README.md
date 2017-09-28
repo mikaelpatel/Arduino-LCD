@@ -25,4 +25,4 @@ Version: 1.0
 
 ## Example Sketches
 
-* [Benchmark](./examples/Benchmark)
+* [Demo](./examples/Demo)
