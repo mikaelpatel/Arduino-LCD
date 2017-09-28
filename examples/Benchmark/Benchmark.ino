@@ -19,9 +19,6 @@ Hardware::TWI twi(400000UL);
 // LCD::DFRobot_IIC io(twi);
 HD44780 lcd(io);
 
-uint32_t start, stop;
-uint16_t nr;
-
 #define MEASURE(expr)				\
   do {						\
     Serial.flush();				\
@@ -43,7 +40,10 @@ void setup()
 
 void loop()
 {
-  nr = 0;
+  uint32_t start, stop;
+  uint16_t nr = 0;
+
+  // Special functions
   MEASURE(lcd.begin());
   MEASURE(lcd.backlight_off());
   MEASURE(lcd.backlight_on());
@@ -56,13 +56,19 @@ void loop()
   MEASURE(lcd.cursor_blink_off());
   MEASURE(lcd.set_cursor(0,0));
   MEASURE(lcd.line_clear());
+
+  // Basic write
   MEASURE(lcd.write('L'));
+
+  // Special characters
   MEASURE(lcd.print('\a'));
   MEASURE(lcd.print('\b'));
   MEASURE(lcd.print('\f'));
   MEASURE(lcd.print('\n'));
   MEASURE(lcd.print('\r'));
   MEASURE(lcd.print('\t'));
+
+  // String print
   MEASURE(lcd.print("0"));
   MEASURE(lcd.print("10"));
   MEASURE(lcd.print("100"));
@@ -73,6 +79,8 @@ void loop()
   MEASURE(lcd.print(F("Hello\tWorld")));
   MEASURE(lcd.print(F("Hello\nWorld")));
   MEASURE(lcd.print(F("\nHello\tWorld")));
+
+  // Integer print
   MEASURE(lcd.print(0));
   MEASURE(lcd.print(1));
   MEASURE(lcd.print(10));
@@ -81,11 +89,17 @@ void loop()
   MEASURE(lcd.print(INT16_MAX));
   MEASURE(lcd.print(INT32_MIN));
   MEASURE(lcd.print(INT32_MAX));
+
+  // Float print
   MEASURE(lcd.print(1234.56789, 5));
   MEASURE(lcd.print(-1234.56789, 5));
+
+  // Integer print in base
   MEASURE(lcd.print(0x8000, BIN));
   MEASURE(lcd.print(0x8000, DEC));
   MEASURE(lcd.print(0x8000, HEX));
+
+  // That all in this benchmark
   MEASURE(lcd.end());
   Serial.println();
 }
