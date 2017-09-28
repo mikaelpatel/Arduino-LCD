@@ -12,7 +12,7 @@
 // Configure: HD44780 Adapter; Port4b or PCF8574
 // LCD::Debug io;
 LCD::Port4b<> io;
-Hardware::TWI twi(400000UL);
+// Hardware::TWI twi(400000UL);
 // Software::TWI<BOARD::D18, BOARD::D19> twi;
 // LCD::MJKDZ io(twi);
 // LCD::GY_IICLCD io(twi);

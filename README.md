@@ -27,3 +27,8 @@ Version: 1.0
 
 * [Demo](./examples/Demo)
 * [Benchmark](./examples/Benchmark)
+
+## Dependencies
+
+* [Arduino-GPIO](https://github.com/mikaelpatel/Arduino-GPIO)
+* [Arduino-TWI](https://github.com/mikaelpatel/Arduino-TWI)
