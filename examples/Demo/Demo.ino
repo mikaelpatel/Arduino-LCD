@@ -21,11 +21,11 @@
 Hardware::TWI twi(400000UL);
 // Software::TWI<BOARD::D18, BOARD::D19> twi;
 // LCD::MJKDZ io(twi);
-// LCD::GY_IICLCD io(twi);
+LCD::GY_IICLCD io(twi);
+// LCD::DFRobot_IIC io(twi);
 
-// MAX72XX<BOARD::D10, BOARD::D11, BOARD::D13> led;
-LCD::DFRobot_IIC io(twi);
-HD44780 led(io);
+// MAX72XX<BOARD::D10, BOARD::D11, BOARD::D13> lcd;
+HD44780 lcd(io);
 
 RTC rtc;
 
@@ -38,30 +38,30 @@ void setup()
   struct tm now(WEDNESDAY, 2017, SEPTEMBER, 27, 22, 57, 00);
   rtc.set_time(now);
 
-  // Initiate the led display
-  led.begin();
+  // Initiate the lcd display
+  lcd.begin();
 
   // Print some different data types
-  if (led.WIDTH > 8)
-    led.print(F("Hello world"));
+  if (lcd.WIDTH > 8)
+    lcd.print(F("Hello world"));
   else
-    led.print(F("HELLO"));
+    lcd.print(F("HELLO"));
   delay(2000);
-  led.display_clear();
+  lcd.display_clear();
 
-  led.print(-10);
-  led.print(F(" C"));
-  if (led.HEIGHT > 1) {
-    led.set_cursor(0, 1);
-    led.print(42.5);
-    led.print(F(" RH"));
+  lcd.print(-10);
+  lcd.print(F(" C"));
+  if (lcd.HEIGHT > 1) {
+    lcd.set_cursor(0, 1);
+    lcd.print(42.5);
+    lcd.print(F(" RH"));
   }
   delay(2000);
-  led.display_clear();
+  lcd.display_clear();
 
-  led.print(3.14159265359, 7);
+  lcd.print(3.14159265359, 7);
   delay(2000);
-  led.display_clear();
+  lcd.display_clear();
 }
 
 void loop()
@@ -78,22 +78,22 @@ void loop()
 
   // Split datetime string and replace colon
   buf[10] = 0;
-  if (led.HEIGHT == 1) {
+  if (lcd.HEIGHT == 1) {
     static int n = 1;
-    led.set_cursor(0, 0);
+    lcd.set_cursor(0, 0);
     if (n == 4) {
-      led.print(buf + 2);
+      lcd.print(buf + 2);
       n = 0;
     }
     else {
-      led.print(buf + 11);
+      lcd.print(buf + 11);
       n += 1;
     }
   }
   else {
-    led.set_cursor(0, 0);
-    led.print(buf);
-    led.set_cursor(0, 1);
-    led.print(buf + 11);
+    lcd.set_cursor(0, 0);
+    lcd.print(buf);
+    lcd.set_cursor(0, 1);
+    lcd.print(buf + 11);
   }
 }

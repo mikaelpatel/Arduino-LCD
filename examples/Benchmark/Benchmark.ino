@@ -17,7 +17,7 @@ Hardware::TWI twi(400000UL);
 // LCD::MJKDZ io(twi);
 LCD::GY_IICLCD io(twi);
 // LCD::DFRobot_IIC io(twi);
-HD44780 led(io);
+HD44780 lcd(io);
 
 uint32_t start, stop;
 
@@ -30,7 +30,7 @@ uint32_t start, stop;
     Serial.print(F(#expr ": "));		\
     Serial.println(stop - start);		\
     delay(500);					\
-    led.display_clear();			\
+    lcd.display_clear();			\
   } while (0)
 
 void setup()
@@ -41,50 +41,50 @@ void setup()
 
 void loop()
 {
-  MEASURE(led.begin());
-  MEASURE(led.cursor_blink_on(); led.print(F("$ benchmark")); delay(1000));
-  MEASURE(led.backlight_off());
-  MEASURE(led.backlight_on());
-  MEASURE(led.display_off());
-  MEASURE(led.display_on());
-  MEASURE(led.display_clear());
-  MEASURE(led.cursor_home());
-  MEASURE(led.cursor_underline_on());
-  MEASURE(led.cursor_underline_off());
-  MEASURE(led.cursor_blink_off());
-  MEASURE(led.set_cursor(0,0));
-  MEASURE(led.line_clear());
-  MEASURE(led.write('L'));
-  MEASURE(led.print('\a'));
-  MEASURE(led.print('\b'));
-  MEASURE(led.print('\f'));
-  MEASURE(led.print('\n'));
-  MEASURE(led.print('\r'));
-  MEASURE(led.print('\t'));
-  MEASURE(led.print("0"));
-  MEASURE(led.print("10"));
-  MEASURE(led.print("100"));
-  MEASURE(led.print("1000"));
-  MEASURE(led.print("10000"));
-  MEASURE(led.print("Hello World"));
-  MEASURE(led.print(F("Hello World")));
-  MEASURE(led.print(F("Hello\tWorld")));
-  MEASURE(led.print(F("Hello\nWorld")));
-  MEASURE(led.print(F("\nHello\tWorld")));
-  MEASURE(led.print(0));
-  MEASURE(led.print(1));
-  MEASURE(led.print(10));
-  MEASURE(led.print(100));
-  MEASURE(led.print(INT16_MIN));
-  MEASURE(led.print(INT16_MAX));
-  MEASURE(led.print(INT32_MIN));
-  MEASURE(led.print(INT32_MAX));
-  MEASURE(led.print(1234.56789, 5));
-  MEASURE(led.print(-1234.56789, 5));
-  MEASURE(led.print(0x8000, BIN));
-  MEASURE(led.print(0x8000, DEC));
-  MEASURE(led.print(0x8000, HEX));
-  MEASURE(led.end());
+  MEASURE(lcd.begin());
+  MEASURE(lcd.cursor_blink_on(); lcd.print(F("$ benchmark")); delay(1000));
+  MEASURE(lcd.backlight_off());
+  MEASURE(lcd.backlight_on());
+  MEASURE(lcd.display_off());
+  MEASURE(lcd.display_on());
+  MEASURE(lcd.display_clear());
+  MEASURE(lcd.cursor_home());
+  MEASURE(lcd.cursor_underline_on());
+  MEASURE(lcd.cursor_underline_off());
+  MEASURE(lcd.cursor_blink_off());
+  MEASURE(lcd.set_cursor(0,0));
+  MEASURE(lcd.line_clear());
+  MEASURE(lcd.write('L'));
+  MEASURE(lcd.print('\a'));
+  MEASURE(lcd.print('\b'));
+  MEASURE(lcd.print('\f'));
+  MEASURE(lcd.print('\n'));
+  MEASURE(lcd.print('\r'));
+  MEASURE(lcd.print('\t'));
+  MEASURE(lcd.print("0"));
+  MEASURE(lcd.print("10"));
+  MEASURE(lcd.print("100"));
+  MEASURE(lcd.print("1000"));
+  MEASURE(lcd.print("10000"));
+  MEASURE(lcd.print("Hello World"));
+  MEASURE(lcd.print(F("Hello World")));
+  MEASURE(lcd.print(F("Hello\tWorld")));
+  MEASURE(lcd.print(F("Hello\nWorld")));
+  MEASURE(lcd.print(F("\nHello\tWorld")));
+  MEASURE(lcd.print(0));
+  MEASURE(lcd.print(1));
+  MEASURE(lcd.print(10));
+  MEASURE(lcd.print(100));
+  MEASURE(lcd.print(INT16_MIN));
+  MEASURE(lcd.print(INT16_MAX));
+  MEASURE(lcd.print(INT32_MIN));
+  MEASURE(lcd.print(INT32_MAX));
+  MEASURE(lcd.print(1234.56789, 5));
+  MEASURE(lcd.print(-1234.56789, 5));
+  MEASURE(lcd.print(0x8000, BIN));
+  MEASURE(lcd.print(0x8000, DEC));
+  MEASURE(lcd.print(0x8000, HEX));
+  MEASURE(lcd.end());
   Serial.println();
 }
 
@@ -92,145 +92,145 @@ void loop()
 --------------------------------------------------------------------------------
 LCD::Port4b<> io;
 --------------------------------------------------------------------------------
-led.begin(): 54800
-led.cursor_blink_on(); led.print(F("$ benchmark")); delay(1000): 1000536
-led.backlight_off(): 8
-led.backlight_on(): 4
-led.display_off(): 40
-led.display_on(): 40
-led.display_clear(): 1652
-led.cursor_home(): 1652
-led.cursor_underline_on(): 40
-led.cursor_underline_off(): 40
-led.cursor_blink_off(): 36
-led.set_cursor(0,0): 44
-led.line_clear(): 688
-led.write('L'): 48
-led.print('\a'): 400032
-led.print('\b'): 48
-led.print('\f'): 1656
-led.print('\n'): 784
-led.print('\r'): 48
-led.print('\t'): 56
-led.print("0"): 52
-led.print("10"): 96
-led.print("100"): 136
-led.print("1000"): 184
-led.print("10000"): 236
-led.print("Hello World"): 488
-led.print(F("Hello World")): 484
-led.print(F("Hello\tWorld")): 500
-led.print(F("Hello\nWorld")): 1224
-led.print(F("\nHello\tWorld")): 1276
-led.print(0): 96
-led.print(1): 104
-led.print(10): 180
-led.print(100): 260
-led.print(INT16_MIN): 472
-led.print(INT16_MAX): 428
-led.print(INT32_MIN): 880
-led.print(INT32_MAX): 840
-led.print(1234.56789, 5): 1028
-led.print(-1234.56789, 5): 1068
-led.print(0x8000, BIN): 1312
-led.print(0x8000, DEC): 428
-led.print(0x8000, HEX): 340
-led.end(): 44
+lcd.begin(): 54800
+lcd.cursor_blink_on(); lcd.print(F("$ benchmark")); delay(1000): 1000536
+lcd.backlight_off(): 8
+lcd.backlight_on(): 4
+lcd.display_off(): 40
+lcd.display_on(): 40
+lcd.display_clear(): 1652
+lcd.cursor_home(): 1652
+lcd.cursor_underline_on(): 40
+lcd.cursor_underline_off(): 40
+lcd.cursor_blink_off(): 36
+lcd.set_cursor(0,0): 44
+lcd.line_clear(): 688
+lcd.write('L'): 48
+lcd.print('\a'): 400032
+lcd.print('\b'): 48
+lcd.print('\f'): 1656
+lcd.print('\n'): 784
+lcd.print('\r'): 48
+lcd.print('\t'): 56
+lcd.print("0"): 52
+lcd.print("10"): 96
+lcd.print("100"): 136
+lcd.print("1000"): 184
+lcd.print("10000"): 236
+lcd.print("Hello World"): 488
+lcd.print(F("Hello World")): 484
+lcd.print(F("Hello\tWorld")): 500
+lcd.print(F("Hello\nWorld")): 1224
+lcd.print(F("\nHello\tWorld")): 1276
+lcd.print(0): 96
+lcd.print(1): 104
+lcd.print(10): 180
+lcd.print(100): 260
+lcd.print(INT16_MIN): 472
+lcd.print(INT16_MAX): 428
+lcd.print(INT32_MIN): 880
+lcd.print(INT32_MAX): 840
+lcd.print(1234.56789, 5): 1028
+lcd.print(-1234.56789, 5): 1068
+lcd.print(0x8000, BIN): 1312
+lcd.print(0x8000, DEC): 428
+lcd.print(0x8000, HEX): 340
+lcd.end(): 44
 --------------------------------------------------------------------------------
 Hardware::TWI twi(100000UL);
 LCD::GY_IICLCD io(twi);
 --------------------------------------------------------------------------------
-led.begin(): 58896
-led.cursor_blink_on(); led.print(F("$ benchmark")); delay(1000): 1006236
-led.backlight_off(): 232
-led.backlight_on(): 228
-led.display_off(): 516
-led.display_on(): 516
-led.display_clear(): 2124
-led.cursor_home(): 2124
-led.cursor_underline_on(): 516
-led.cursor_underline_off(): 516
-led.cursor_blink_off(): 516
-led.set_cursor(0,0): 520
-led.line_clear(): 8296
-led.write('L'): 520
-led.print('\a'): 400468
-led.print('\b'): 520
-led.print('\f'): 2128
-led.print('\n'): 9324
-led.print('\r'): 520
-led.print('\t'): 528
-led.print("0"): 528
-led.print("10"): 1052
-led.print("100"): 1564
-led.print("1000"): 2088
-led.print("10000"): 2600
-led.print("Hello World"): 5724
-led.print(F("Hello World")): 5704
-led.print(F("Hello\tWorld")): 5708
-led.print(F("Hello\nWorld")): 14508
-led.print(F("\nHello\tWorld")): 15044
-led.print(0): 568
-led.print(1): 568
-led.print(10): 1132
-led.print(100): 1680
-led.print(INT16_MIN): 3312
-led.print(INT16_MAX): 2796
-led.print(INT32_MIN): 6088
-led.print(INT32_MAX): 5588
-led.print(1234.56789, 5): 5780
-led.print(-1234.56789, 5): 6292
-led.print(0x8000, BIN): 8892
-led.print(0x8000, DEC): 2792
-led.print(0x8000, HEX): 2240
-led.end(): 516
+lcd.begin(): 58896
+lcd.cursor_blink_on(); lcd.print(F("$ benchmark")); delay(1000): 1006236
+lcd.backlight_off(): 232
+lcd.backlight_on(): 228
+lcd.display_off(): 516
+lcd.display_on(): 516
+lcd.display_clear(): 2124
+lcd.cursor_home(): 2124
+lcd.cursor_underline_on(): 516
+lcd.cursor_underline_off(): 516
+lcd.cursor_blink_off(): 516
+lcd.set_cursor(0,0): 520
+lcd.line_clear(): 8296
+lcd.write('L'): 520
+lcd.print('\a'): 400468
+lcd.print('\b'): 520
+lcd.print('\f'): 2128
+lcd.print('\n'): 9324
+lcd.print('\r'): 520
+lcd.print('\t'): 528
+lcd.print("0"): 528
+lcd.print("10"): 1052
+lcd.print("100"): 1564
+lcd.print("1000"): 2088
+lcd.print("10000"): 2600
+lcd.print("Hello World"): 5724
+lcd.print(F("Hello World")): 5704
+lcd.print(F("Hello\tWorld")): 5708
+lcd.print(F("Hello\nWorld")): 14508
+lcd.print(F("\nHello\tWorld")): 15044
+lcd.print(0): 568
+lcd.print(1): 568
+lcd.print(10): 1132
+lcd.print(100): 1680
+lcd.print(INT16_MIN): 3312
+lcd.print(INT16_MAX): 2796
+lcd.print(INT32_MIN): 6088
+lcd.print(INT32_MAX): 5588
+lcd.print(1234.56789, 5): 5780
+lcd.print(-1234.56789, 5): 6292
+lcd.print(0x8000, BIN): 8892
+lcd.print(0x8000, DEC): 2792
+lcd.print(0x8000, HEX): 2240
+lcd.end(): 516
 --------------------------------------------------------------------------------
 Hardware::TWI twi(400000UL);
 LCD::GY_IICLCD io(twi);
 --------------------------------------------------------------------------------
-led.begin(): 56056
-led.cursor_blink_on(); led.print(F("$ benchmark")); delay(1000): 1002108
-led.backlight_off(): 84
-led.backlight_on(): 88
-led.display_off(): 172
-led.display_on(): 172
-led.display_clear(): 1776
-led.cursor_home(): 1776
-led.cursor_underline_on(): 172
-led.cursor_underline_off(): 172
-led.cursor_blink_off(): 172
-led.set_cursor(0,0): 176
-led.line_clear(): 2796
-led.write('L'): 176
-led.print('\a'): 400192
-led.print('\b'): 180
-led.print('\f'): 1784
-led.print('\n'): 3152
-led.print('\r'): 176
-led.print('\t'): 184
-led.print("0"): 184
-led.print("10"): 360
-led.print("100"): 532
-led.print("1000"): 704
-led.print("10000"): 876
-led.print("Hello World"): 1932
-led.print(F("Hello World")): 1920
-led.print(F("Hello\tWorld")): 1936
-led.print(F("Hello\nWorld")): 4892
-led.print(F("\nHello\tWorld")): 5076
-led.print(0): 228
-led.print(1): 224
-led.print(10): 440
-led.print(100): 652
-led.print(INT16_MIN): 1256
-led.print(INT16_MAX): 1076
-led.print(INT32_MIN): 2328
-led.print(INT32_MAX): 2152
-led.print(1234.56789, 5): 2344
-led.print(-1234.56789, 5): 2508
-led.print(0x8000, BIN): 3408
-led.print(0x8000, DEC): 1080
-led.print(0x8000, HEX): 860
-led.end(): 172
+lcd.begin(): 56056
+lcd.cursor_blink_on(); lcd.print(F("$ benchmark")); delay(1000): 1002108
+lcd.backlight_off(): 84
+lcd.backlight_on(): 88
+lcd.display_off(): 172
+lcd.display_on(): 172
+lcd.display_clear(): 1776
+lcd.cursor_home(): 1776
+lcd.cursor_underline_on(): 172
+lcd.cursor_underline_off(): 172
+lcd.cursor_blink_off(): 172
+lcd.set_cursor(0,0): 176
+lcd.line_clear(): 2796
+lcd.write('L'): 176
+lcd.print('\a'): 400192
+lcd.print('\b'): 180
+lcd.print('\f'): 1784
+lcd.print('\n'): 3152
+lcd.print('\r'): 176
+lcd.print('\t'): 184
+lcd.print("0"): 184
+lcd.print("10"): 360
+lcd.print("100"): 532
+lcd.print("1000"): 704
+lcd.print("10000"): 876
+lcd.print("Hello World"): 1932
+lcd.print(F("Hello World")): 1920
+lcd.print(F("Hello\tWorld")): 1936
+lcd.print(F("Hello\nWorld")): 4892
+lcd.print(F("\nHello\tWorld")): 5076
+lcd.print(0): 228
+lcd.print(1): 224
+lcd.print(10): 440
+lcd.print(100): 652
+lcd.print(INT16_MIN): 1256
+lcd.print(INT16_MAX): 1076
+lcd.print(INT32_MIN): 2328
+lcd.print(INT32_MAX): 2152
+lcd.print(1234.56789, 5): 2344
+lcd.print(-1234.56789, 5): 2508
+lcd.print(0x8000, BIN): 3408
+lcd.print(0x8000, DEC): 1080
+lcd.print(0x8000, HEX): 860
+lcd.end(): 172
 --------------------------------------------------------------------------------
 */
