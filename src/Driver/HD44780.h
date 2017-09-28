@@ -398,8 +398,17 @@ public:
     // Check for special characters
     if (c < ' ') {
       switch (c) {
-      case '\r': // Carriage-return: move to start of line
-	set_cursor(0, m_y);
+      case '\a': // Alert: blink the backlight
+	backlight_off();
+	delay(200);
+	backlight_on();
+	delay(200);
+	return (1);
+      case '\b': // Back-space: move cursor back one step (if possible)
+	set_cursor(m_x - 1, m_y);
+	return (1);
+      case '\f': // Form-feed: clear the display
+	display_clear();
 	return (1);
       case '\n': // New-line: clear line
 	{
@@ -412,23 +421,15 @@ public:
 	  set_cursor(x, y);
 	}
 	return (1);
+      case '\r': // Carriage-return: move to start of line
+	set_cursor(0, m_y);
+	return (1);
       case '\t': // Horizontal tab
 	{
 	  uint8_t x = m_x + m_tab - (m_x % m_tab);
 	  uint8_t y = m_y + (x >= WIDTH);
 	  set_cursor(x, y);
 	}
-	return (1);
-      case '\f': // Form-feed: clear the display
-	display_clear();
-	return (1);
-      case '\b': // Back-space: move cursor back one step (if possible)
-	set_cursor(m_x - 1, m_y);
-	return (1);
-      case '\a': // Alert: blink the backlight
-	backlight_off();
-	delay(32);
-	backlight_on();
 	return (1);
       default:
 	return (0);
