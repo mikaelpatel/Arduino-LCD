@@ -20,7 +20,8 @@
 
 /**
  * Adapter for HD44780 (LCD-II) Dot Matix Liquid Crystal Display
- * Controller/Driver when using GPIO pins.
+ * Controller/Driver when using GPIO pins. Default pins support the
+ * LCD Keypad Shield.
  * @param[in] D0_PIN data pin (default BOARD::D4).
  * @param[in] D1_PIN data pin (default BOARD::D5).
  * @param[in] D2_PIN data pin (default BOARD::D6).
