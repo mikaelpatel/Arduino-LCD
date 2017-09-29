@@ -1,17 +1,19 @@
 #include "GPIO.h"
-#include "LCD.h"
-#include "Driver/HD44780.h"
-#include "Adapter/Port4b.h"
 #include "TWI.h"
 #include "Hardware/TWI.h"
 #include "Software/TWI.h"
+#include "LCD.h"
+#include "Driver/HD44780.h"
+#include "Adapter/Port4b.h"
+#include "Adapter/SR3W.h"
 #include "Adapter/MJKDZ.h"
 #include "Adapter/GY_IICLCD.h"
 #include "Adapter/DFRobot_IIC.h"
 
-// Configure: HD44780 Adapter; Port4b or PCF8574
+// Configure: HD44780 Adapter; Port4b, SR3W or TWI PCF8574
 // LCD::Debug io;
-LCD::Port4b<> io;
+// LCD::Port4b<> io;
+LCD::SR3W<> io;
 // Hardware::TWI twi(400000UL);
 // Software::TWI<BOARD::D18, BOARD::D19> twi;
 // LCD::MJKDZ io(twi);
@@ -106,7 +108,7 @@ void loop()
 
 /*
 --------------------------------------------------------------------------------
-LCD::Port4b<> io;
+LCD::Port4b<> io; LCD Keypad Shield, 7 pin GPIO
 --------------------------------------------------------------------------------
 0: lcd.begin(): 54800
 1: lcd.backlight_off(): 4
@@ -152,6 +154,53 @@ LCD::Port4b<> io;
 41: lcd.print(0x8000, HEX): 344
 42: lcd.end(): 44
 --------------------------------------------------------------------------------
+LCD::SR3W<> io; Shift Register (74HC595 or 74HC164), 3 pin GPIO
+--------------------------------------------------------------------------------
+0: lcd.begin(): 54892
+1: lcd.backlight_off(): 4
+2: lcd.backlight_on(): 8
+3: lcd.display_off(): 56
+4: lcd.display_on(): 52
+5: lcd.display_clear(): 1664
+6: lcd.cursor_home(): 1660
+7: lcd.cursor_underline_on(): 56
+8: lcd.cursor_underline_off(): 56
+9: lcd.cursor_blink_off(): 60
+10: lcd.set_cursor(0,0): 56
+11: lcd.line_clear(): 928
+12: lcd.write('L'): 60
+13: lcd.print('\a'): 400028
+14: lcd.print('\b'): 60
+15: lcd.print('\f'): 1668
+16: lcd.print('\n'): 1056
+17: lcd.print('\r'): 68
+18: lcd.print('\t'): 68
+19: lcd.print("0"): 68
+20: lcd.print("10"): 132
+21: lcd.print("100"): 184
+22: lcd.print("1000"): 248
+23: lcd.print("10000"): 300
+24: lcd.print("Hello World"): 656
+25: lcd.print(F("Hello World")): 648
+26: lcd.print(F("Hello\tWorld")): 656
+27: lcd.print(F("Hello\nWorld")): 1644
+28: lcd.print(F("\nHello\tWorld")): 1708
+29: lcd.print(0): 112
+30: lcd.print(1): 108
+31: lcd.print(10): 208
+32: lcd.print(100): 304
+33: lcd.print(INT16_MIN): 556
+34: lcd.print(INT16_MAX): 496
+35: lcd.print(INT32_MIN): 1048
+36: lcd.print(INT32_MAX): 992
+37: lcd.print(1234.56789, 5): 1176
+38: lcd.print(-1234.56789, 5): 1232
+39: lcd.print(0x8000, BIN): 1560
+40: lcd.print(0x8000, DEC): 500
+41: lcd.print(0x8000, HEX): 396
+42: lcd.end(): 56
+--------------------------------------------------------------------------------
+GY IIC LCD, PCF8574, 2 wire TWI
 Software::TWI<BOARD::D18,BOARD::D19> twi;
 LCD::GY_IICLCD io(twi);
 --------------------------------------------------------------------------------
@@ -199,6 +248,7 @@ LCD::GY_IICLCD io(twi);
 41: lcd.print(0x8000, HEX): 2132
 42: lcd.end(): 496
 --------------------------------------------------------------------------------
+GY IIC LCD, PCF8574, 2 wire TWI
 Hardware::TWI twi(100000UL);
 LCD::GY_IICLCD io(twi);
 --------------------------------------------------------------------------------
@@ -246,6 +296,7 @@ LCD::GY_IICLCD io(twi);
 41: lcd.print(0x8000, HEX): 2244
 42: lcd.end(): 512
 --------------------------------------------------------------------------------
+GY IIC LCD, PCF8574, 2 wire TWI
 Hardware::TWI twi(400000UL);
 LCD::GY_IICLCD io(twi);
 --------------------------------------------------------------------------------

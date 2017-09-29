@@ -1,32 +1,30 @@
 #include "GPIO.h"
 #include "RTC.h"
-#include "LCD.h"
-
-// Configure: Debug, MAX72XX or HD44780
-// #include "Adapter/Debug.h"
-// #include "Driver/MAX72XX.h"
-#include "Driver/HD44780.h"
-
-// #include "Adapter/Port4b.h"
 #include "TWI.h"
 #include "Hardware/TWI.h"
 #include "Software/TWI.h"
+#include "LCD.h"
+#include "Driver/MAX72XX.h"
+#include "Driver/HD44780.h"
+#include "Adapter/Debug.h"
+#include "Adapter/Port4b.h"
+#include "Adapter/SR3W.h"
 #include "Adapter/MJKDZ.h"
 #include "Adapter/GY_IICLCD.h"
 #include "Adapter/DFRobot_IIC.h"
 
-// Configure: HD44780 Adapter; Port4b or PCF8574
+// Configure: HD44780 Adapter; Debug, Port4b, SR3W or TWI PCF8574
 // LCD::Debug io;
 // LCD::Port4b<> io;
-Hardware::TWI twi(400000UL);
+LCD::SR3W<> io;
+// Hardware::TWI twi(400000UL);
 // Software::TWI<BOARD::D18, BOARD::D19> twi;
 // LCD::MJKDZ io(twi);
-LCD::GY_IICLCD io(twi);
+// LCD::GY_IICLCD io(twi);
 // LCD::DFRobot_IIC io(twi);
 
 // MAX72XX<BOARD::D10, BOARD::D11, BOARD::D13> lcd;
 HD44780 lcd(io);
-
 RTC rtc;
 
 void setup()

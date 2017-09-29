@@ -2,9 +2,10 @@
 The LCD library provides an abstract interface for LCD devices and an
 adapter design pattern to allow device drivers to be reused even when
 LCD device communication changes. The library includes device drivers
-for MAX72XX and HD44780, and adapter using GPIO and TWI (PCF8574).
+for MAX72XX and HD44780, and adapter using GPIO, Shift Register, and
+TWI (PCF8574).
 
-Version: 1.0
+Version: 1.1
 
 ## Classes
 
@@ -22,6 +23,7 @@ Version: 1.0
 * [DFRobot_IIC, PCF8574, TWI](./src/Adapter/DFRobot_IIC.h)
 * [GY_IICLCD, PCF8574, TWI](./src/Adapter/GY_IICLCD.h)
 * [Port4b, GPIO](./src/Adapter/Port4b.h)
+* [Shift Register 3 Wire, GPIO](./src/Adapter/SR3W.h)
 
 ## Example Sketches
 
