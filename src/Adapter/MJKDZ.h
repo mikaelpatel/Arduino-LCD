@@ -20,6 +20,7 @@
 #define LCD_ADAPTER_MJKDZ_H
 
 #include "LCD.h"
+#include "Driver/HD44780.h"
 #include "TWI.h"
 #include "Driver/PCF8574.h"
 

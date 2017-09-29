@@ -19,6 +19,8 @@
 #ifndef LCD_ADAPTER_GY_IICLCD_H
 #define LCD_ADAPTER_GY_IICLCD_H
 
+#include "LCD.h"
+#include "Driver/HD44780.h"
 #include "TWI.h"
 #include "MJKDZ.h"
 /**

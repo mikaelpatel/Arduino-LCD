@@ -18,6 +18,9 @@
 #ifndef LCD_ADAPTER_PORT4B_H
 #define LCD_ADAPTER_PORT4B_H
 
+#include "LCD.h"
+#include "Driver/HD44780.h"
+
 /**
  * Adapter for HD44780 (LCD-II) Dot Matix Liquid Crystal Display
  * Controller/Driver when using GPIO pins. Default pins support the

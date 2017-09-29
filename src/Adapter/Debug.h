@@ -18,6 +18,9 @@
 #ifndef LCD_ADAPTER_DEBUG_H
 #define LCD_ADAPTER_DEBUG_H
 
+#include "LCD.h"
+#include "Driver/HD44780.h"
+
 /**
  * Debug Adapter for HD44780 (LCD-II) Dot Matix Liquid Crystal Display
  * Controller/Driver. Prints driver commands as sent to the device.
