@@ -32,11 +32,6 @@ Version: 1.1
 * [Demo](./examples/Demo)
 * [Benchmark](./examples/Benchmark)
 
-## Dependencies
-
-* [Arduino-GPIO](https://github.com/mikaelpatel/Arduino-GPIO)
-* [Arduino-TWI](https://github.com/mikaelpatel/Arduino-TWI)
-
 ## Benchmarks
 
 Nr | Operation | PP7W | SR4W | SR3W | SoftTWI | TWI@100 | TWI@400
@@ -84,3 +79,8 @@ Nr | Operation | PP7W | SR4W | SR3W | SoftTWI | TWI@100 | TWI@400
 40 | lcd.print(0x8000, DEC) | 420 | 500 | 436 | 2668 | 2792 | 1080
 41 | lcd.print(0x8000, HEX) | 344 | 396 | 356 | 2132 | 2244 | 860
 42 | lcd.end() | 44 | 56 | 44 | 496 | 512 | 172
+
+## Dependencies
+
+* [Arduino-GPIO](https://github.com/mikaelpatel/Arduino-GPIO)
+* [Arduino-TWI](https://github.com/mikaelpatel/Arduino-TWI)
