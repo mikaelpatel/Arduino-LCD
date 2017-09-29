@@ -7,7 +7,7 @@
 #include "Driver/MAX72XX.h"
 #include "Driver/HD44780.h"
 #include "Adapter/Debug.h"
-#include "Adapter/Port4b.h"
+#include "Adapter/PP7W.h"
 #include "Adapter/SR3W.h"
 #include "Adapter/SR4W.h"
 #include "Adapter/MJKDZ.h"
@@ -16,7 +16,7 @@
 
 // Configure: HD44780 Adapter; Debug, Port4b, SR3W or TWI PCF8574
 // LCD::Debug io;
-// LCD::Port4b<> io;
+// LCD::PP7W<> io;
 // LCD::SR3W<> io;
 LCD::SR4W<> io;
 // Hardware::TWI twi(400000UL);

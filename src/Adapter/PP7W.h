@@ -1,5 +1,5 @@
 /**
- * @file LCD/Adapter/Port4b.h
+ * @file LCD/Adapter/PP7W.h
  * @version 1.0
  *
  * @section License
@@ -15,8 +15,8 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  */
-#ifndef LCD_ADAPTER_PORT4B_H
-#define LCD_ADAPTER_PORT4B_H
+#ifndef LCD_ADAPTER_PP7W_H
+#define LCD_ADAPTER_PP7W_H
 
 #include "LCD.h"
 #include "Driver/HD44780.h"
@@ -69,13 +69,13 @@ template<BOARD::pin_t D0_PIN = BOARD::D4,
 	 BOARD::pin_t RS_PIN = BOARD::D8,
 	 BOARD::pin_t EN_PIN = BOARD::D9,
 	 BOARD::pin_t BT_PIN = BOARD::D10>
-class Port4b : public HD44780::Adapter {
+class PP7W : public HD44780::Adapter {
 public:
   /**
-   * Construct HD44780 4-bit parallel port connected to given command,
+   * Construct HD44780 7-wire parallel port connected to given command,
    * enable and backlight pin.
    */
-  Port4b() : HD44780::Adapter()
+  PP7W() : HD44780::Adapter()
   {
     m_d0.output();
     m_d1.output();

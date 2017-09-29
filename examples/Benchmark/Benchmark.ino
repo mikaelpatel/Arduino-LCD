@@ -4,7 +4,7 @@
 #include "Software/TWI.h"
 #include "LCD.h"
 #include "Driver/HD44780.h"
-#include "Adapter/Port4b.h"
+#include "Adapter/PP7W.h"
 #include "Adapter/SR3W.h"
 #include "Adapter/SR4W.h"
 #include "Adapter/MJKDZ.h"
@@ -13,7 +13,7 @@
 
 // Configure: HD44780 Adapter; Port4b, SR3W, SR4W or TWI PCF8574
 // LCD::Debug io;
-// LCD::Port4b<> io;
+// LCD::PP7W<> io;
 // LCD::SR3W<> io;
 LCD::SR4W<> io;
 // Hardware::TWI twi(400000UL);
