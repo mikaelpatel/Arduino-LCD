@@ -39,7 +39,8 @@ Version: 1.1
 
 ## Benchmarks
 
-nr:operation:Port4b:SR4W:SRW3:SoftTWI:TWI@100:TWI@400
+nr | operation | Port4b | SR4W | SRW3 | SoftTWI | TWI@100 | TWI@400
+---|-----------|--------|------|------|---------|---------|--------
 0 | lcd.begin() | 54800 | 54892 | 49864 | 58640 | 58892 | 56056
 1 | lcd.backlight_off() | 4 | 4 | 8 | 212 | 228 | 88
 2 | lcd.backlight_on() | 8 | 8 | 4 | 208 | 224 | 88
