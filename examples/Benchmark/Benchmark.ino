@@ -6,14 +6,16 @@
 #include "Driver/HD44780.h"
 #include "Adapter/Port4b.h"
 #include "Adapter/SR3W.h"
+#include "Adapter/SR4W.h"
 #include "Adapter/MJKDZ.h"
 #include "Adapter/GY_IICLCD.h"
 #include "Adapter/DFRobot_IIC.h"
 
-// Configure: HD44780 Adapter; Port4b, SR3W or TWI PCF8574
+// Configure: HD44780 Adapter; Port4b, SR3W, SR4W or TWI PCF8574
 // LCD::Debug io;
 // LCD::Port4b<> io;
-LCD::SR3W<> io;
+// LCD::SR3W<> io;
+LCD::SR4W<> io;
 // Hardware::TWI twi(400000UL);
 // Software::TWI<BOARD::D18, BOARD::D19> twi;
 // LCD::MJKDZ io(twi);
@@ -199,6 +201,52 @@ LCD::SR3W<> io; Shift Register (74HC595 or 74HC164), 3 pin GPIO
 40: lcd.print(0x8000, DEC): 500
 41: lcd.print(0x8000, HEX): 396
 42: lcd.end(): 56
+--------------------------------------------------------------------------------
+LCD::SR4W<> io; Shift Register (74HC595 or 74HC164), 3/4 pin GPIO
+--------------------------------------------------------------------------------
+0: lcd.begin(): 49864
+1: lcd.backlight_off(): 8
+2: lcd.backlight_on(): 4
+3: lcd.display_off(): 44
+4: lcd.display_on(): 44
+5: lcd.display_clear(): 1656
+6: lcd.cursor_home(): 1656
+7: lcd.cursor_underline_on(): 44
+8: lcd.cursor_underline_off(): 44
+9: lcd.cursor_blink_off(): 44
+10: lcd.set_cursor(0,0): 48
+11: lcd.line_clear(): 736
+12: lcd.write('L'): 48
+13: lcd.print('\a'): 400032
+14: lcd.print('\b'): 52
+15: lcd.print('\f'): 1656
+16: lcd.print('\n'): 844
+17: lcd.print('\r'): 52
+18: lcd.print('\t'): 56
+19: lcd.print("0"): 52
+20: lcd.print("10"): 100
+21: lcd.print("100"): 152
+22: lcd.print("1000"): 196
+23: lcd.print("10000"): 244
+24: lcd.print("Hello World"): 528
+25: lcd.print(F("Hello World")): 528
+26: lcd.print(F("Hello\tWorld")): 528
+27: lcd.print(F("Hello\nWorld")): 1316
+28: lcd.print(F("\nHello\tWorld")): 1368
+29: lcd.print(0): 100
+30: lcd.print(1): 100
+31: lcd.print(10): 184
+32: lcd.print(100): 276
+33: lcd.print(INT16_MIN): 492
+34: lcd.print(INT16_MAX): 440
+35: lcd.print(INT32_MIN): 920
+36: lcd.print(INT32_MAX): 872
+37: lcd.print(1234.56789, 5): 1056
+38: lcd.print(-1234.56789, 5): 1108
+39: lcd.print(0x8000, BIN): 1364
+40: lcd.print(0x8000, DEC): 436
+41: lcd.print(0x8000, HEX): 356
+42: lcd.end(): 44
 --------------------------------------------------------------------------------
 GY IIC LCD, PCF8574, 2 wire TWI
 Software::TWI<BOARD::D18,BOARD::D19> twi;
