@@ -43,7 +43,7 @@ void setup()
 
   // Print some different data types
   if (lcd.WIDTH > 8)
-    lcd.print(F("Hello world"));
+    lcd.print(F("Hello World"));
   else
     lcd.print(F("HELLO"));
   delay(2000);
@@ -54,7 +54,7 @@ void setup()
   if (lcd.HEIGHT > 1) {
     lcd.set_cursor(0, 1);
     lcd.print(42.5);
-    lcd.print(F(" RH"));
+    lcd.print(F(" %RH"));
   }
   delay(2000);
   lcd.display_clear();
