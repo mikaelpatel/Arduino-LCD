@@ -3,11 +3,11 @@
 The LCD library provides an abstract interface for LCD devices and an
 adapter design pattern to allow device drivers to be reused even when
 LCD device communication changes. The library includes device drivers
-for MAX72XX and HD44780, and adapter using GPIO (LCD::PP7W), Shift
-Registers (LCD::SR3W, LCD::SR4W), and PCF8574 based modules (LCD::MJKDZ,
-LCD::DFRobot_IIC, LCD::GY_IICLCD).
+for MAX72XX, PCD8544 and HD44780, and adapter using GPIO (LCD::PP7W),
+Shift Registers (LCD::SR3W, LCD::SR4W), and PCF8574 based modules
+(LCD::MJKDZ, LCD::DFRobot_IIC, LCD::GY_IICLCD).
 
-Version: 1.1
+Version: 1.2
 */
 
 /** @page License

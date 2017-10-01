@@ -22,8 +22,8 @@
 #include "LCD.h"
 
 /**
- * HD44780 (LCD-II) Dot Matix Liquid Crystal Display Controller/Driver
- * for LCD/Print access. Supports simple text scroll, cursor, and
+ * LCD Device Driver for HD44780 (LCD-II) Dot Matix Liquid Crystal
+ * Display Controller/Driver. Supports simple text scroll, cursor, and
  * handling of special characters such as carriage-return, form-feed,
  * back-space, horizontal tab and new-line.
  *
@@ -35,17 +35,19 @@ public:
   /**
    * Abstract HD44780 Adapter class; isolate communication specific
    * functions and allow access over parallel and serial interfaces.
-   * See Port4b and MJDKZ for examples.
    */
   class Adapter {
   public:
     /**
      * @override{HD44780::Adapter}
      * Initiate IO port. Called by HD44780::begin(). Should return true(1)
-     * for 8-bit mode otherwise false for 4-bit mode.
+     * for 8-bit mode otherwise false for 4-bit mode. Default is 4-bit mode.
      * @return bool.
      */
-    virtual bool setup() = 0;
+    virtual bool setup()
+    {
+      return (false);
+    }
 
     /**
      * @override{HD44780::Adapter}
@@ -103,8 +105,8 @@ public:
   const uint8_t HEIGHT;
 
   /**
-   * Construct HD44780 LCD connected to given io port adapter. The
-   * display is initiated when calling begin().
+   * Construct HD44780 LCD connected to given adapter. The display is
+   * initiated by calling begin(). Default display is 1602.
    * @param[in] io port adapter.
    * @param[in] width of display, characters per line (Default 16).
    * @param[in] height of display, number of lines (Default 2).
@@ -131,17 +133,14 @@ public:
     // Initiate display; See fig. 24, 4-bit interface, pp. 46.
     // http://web.alfredstate.edu/weimandn/lcd/lcd_initialization/-
     // LCD%204-bit%20Initialization%20v06.pdf
-    static const uint8_t offset0[] PROGMEM = {
-      0x00, 0x40, 0x14, 0x54
-    };
-    static const uint8_t offset1[] PROGMEM = {
-      0x00, 0x40, 0x10, 0x50
-    };
+    static const uint8_t offset0[] PROGMEM = { 0x00, 0x40, 0x14, 0x54 };
+    static const uint8_t offset1[] PROGMEM = { 0x00, 0x40, 0x10, 0x50 };
     m_offset = ((HEIGHT == 4) && (WIDTH == 16) ? offset1 : offset0);
     const uint8_t FS0 = (FUNCTION_SET | DATA_LENGTH_8BITS);
     const uint8_t FS1 = (FUNCTION_SET | DATA_LENGTH_4BITS);
     bool mode = m_io.setup();
     delay(POWER_ON_TIME);
+    // 4-bit initialization mode
     if (!mode) {
       m_io.write4b(FS0 >> 4);
       delayMicroseconds(INIT0_TIME);
@@ -152,7 +151,7 @@ public:
       m_io.write4b(FS1 >> 4);
       delayMicroseconds(INIT1_TIME);
     }
-    // 8-bit initialization
+    // 8-bit initialization mode
     else {
       m_io.write8b(m_func |= DATA_LENGTH_8BITS);
     }
@@ -160,23 +159,12 @@ public:
     // Initialization with the function, control and mode setting
     m_io.write8b(m_func);
     m_io.write8b(m_cntl);
-    display_clear();
-    m_io.write8b(m_mode);
 
     // Initialization completed. Turn on the display and backlight
+    text_normal_mode();
+    display_clear();
     display_on();
     backlight_on();
-    return (true);
-  }
-
-  /**
-   * @override{LCD::Device}
-   * Stop display and power down. Returns true if successful
-   * otherwise false.
-   */
-  virtual bool end()
-  {
-    display_off();
     return (true);
   }
 
@@ -217,6 +205,65 @@ public:
   }
 
   /**
+   * @override{LCD::Device}
+   * Clear display and move cursor to home(0, 0).
+   */
+  virtual void display_clear()
+  {
+    m_io.write8b(CLEAR_DISPLAY);
+    m_x = 0;
+    m_y = 0;
+    m_mode |= INCREMENT;
+    delayMicroseconds(LONG_EXEC_TIME);
+  }
+
+  /**
+   * @override{LCD::Device}
+   * Turn cursor blink on.
+   */
+  virtual void cursor_blink_on()
+  {
+    m_io.write8b(m_cntl |= BLINK_ON);
+  }
+
+  /**
+   * @override{LCD::Device}
+   * Turn cursor blink off.
+   */
+  virtual void cursor_blink_off()
+  {
+    m_io.write8b(m_cntl &= ~BLINK_ON);
+  }
+
+  /**
+   * @override{LCD::Device}
+   * Set cursor position to given position.
+   * @param[in] x.
+   * @param[in] y.
+   */
+  virtual void cursor_set(uint8_t x, uint8_t y)
+  {
+    if (x >= WIDTH) x = 0;
+    if (y >= HEIGHT) y = 0;
+    uint8_t offset = (uint8_t) pgm_read_byte(&m_offset[y]);
+    m_io.write8b(SET_DDRAM_ADDR | ((x + offset) & SET_DDRAM_MASK));
+    m_x = x;
+    m_y = y;
+  }
+
+  /**
+   * @override{LCD::Device}
+   * Move cursor to home position(0, 0) .
+   */
+  virtual void cursor_home()
+  {
+    m_io.write8b(RETURN_HOME);
+    m_x = 0;
+    m_y = 0;
+    delayMicroseconds(LONG_EXEC_TIME);
+  }
+
+  /**
    * Set display scrolling left.
    */
   void display_scroll_left()
@@ -232,38 +279,6 @@ public:
     __attribute__((always_inline))
   {
     m_io.write8b(SHIFT_SET | DISPLAY_MOVE | MOVE_RIGHT);
-  }
-
-  /**
-   * @override{LCD::Device}
-   * Clear display and move cursor to home(0, 0).
-   */
-  virtual void display_clear()
-  {
-    m_io.write8b(CLEAR_DISPLAY);
-    m_x = 0;
-    m_y = 0;
-    m_mode |= INCREMENT;
-    delayMicroseconds(LONG_EXEC_TIME);
-  }
-
-  /**
-   * Clear to end of line.
-   */
-  void line_clear()
-  {
-    while (m_x < WIDTH) write(' ');
-  }
-
-  /**
-   * Move cursor to home position(0, 0) .
-   */
-  void cursor_home()
-  {
-    m_io.write8b(RETURN_HOME);
-    m_x = 0;
-    m_y = 0;
-    delayMicroseconds(LONG_EXEC_TIME);
   }
 
   /**
@@ -284,48 +299,6 @@ public:
     m_io.write8b(m_cntl &= ~CURSOR_ON);
   }
 
-  /**
-   * Turn cursor blink on.
-   */
-  void cursor_blink_on()
-    __attribute__((always_inline))
-  {
-    m_io.write8b(m_cntl |= BLINK_ON);
-  }
-
-  /**
-   * Turn cursor blink off.
-   */
-  void cursor_blink_off()
-    __attribute__((always_inline))
-  {
-    m_io.write8b(m_cntl &= ~BLINK_ON);
-  }
-
-  /**
-   * @override{LCD::Device}
-   * Set cursor position to given position.
-   * @param[in] x.
-   * @param[in] y.
-   */
-  virtual void set_cursor(uint8_t x, uint8_t y)
-  {
-    if (x >= WIDTH) x = 0;
-    if (y >= HEIGHT) y = 0;
-    uint8_t offset = (uint8_t) pgm_read_byte(&m_offset[y]);
-    m_io.write8b(SET_DDRAM_ADDR | ((x + offset) & SET_DDRAM_MASK));
-    m_x = x;
-    m_y = y;
-  }
-
-  /**
-   * Set text flow left-to-right.
-   */
-  void text_flow_left_to_right()
-    __attribute__((always_inline))
-  {
-    m_io.write8b(m_cntl |= INCREMENT);
-  }
 
   /**
    * Set text flow right-to-left.
@@ -384,12 +357,10 @@ public:
   }
 
   /**
-   * @override{Print}
-   * Write character to display. Handles carriage-return-line-feed,
-   * backspace, alert, horizontal tab and form-feed. The period
-   * character is translated to the 7-segment LED decimal point of the
-   * previous written character. Returns number of characters(1) or
-   * zero(0) on error.
+   * @override{Arduino::Print}
+   * Write character to display. Handles carriage-return, line-feed,
+   * backspace, alert, horizontal tab and form-feed. Returns number of
+   * characters(1) or zero(0) on error.
    * @param[in] c character to write.
    * @return number of characters written(1) or zero(0) for error.
    */
@@ -398,37 +369,34 @@ public:
     // Check for special characters
     if (c < ' ') {
       switch (c) {
-      case '\a': // Alert: blink the backlight
-	backlight_off();
-	delay(200);
-	backlight_on();
-	delay(200);
+      case '\a': // Alert: invert text mode
+	m_mode = ~m_mode;
 	return (1);
       case '\b': // Back-space: move cursor back one step (if possible)
-	set_cursor(m_x - 1, m_y);
+	cursor_set(m_x - 1, m_y);
+	write(' ');
+	cursor_set(m_x - 1, m_y);
 	return (1);
       case '\f': // Form-feed: clear the display
 	display_clear();
 	return (1);
       case '\n': // New-line: clear line
 	{
-	  uint8_t x, y;
-	  set_cursor(0, m_y + 1);
-	  get_cursor(x, y);
+	  cursor_set(0, m_y + 1);
 	  m_io.set_mode(true);
 	  for (uint8_t i = 0; i < WIDTH; i++) write(' ');
 	  m_io.set_mode(false);
-	  set_cursor(x, y);
+	  cursor_set(m_x, m_y);
 	}
 	return (1);
       case '\r': // Carriage-return: move to start of line
-	set_cursor(0, m_y);
+	cursor_set(0, m_y);
 	return (1);
       case '\t': // Horizontal tab
 	{
 	  uint8_t x = m_x + m_tab - (m_x % m_tab);
 	  uint8_t y = m_y + (x >= WIDTH);
-	  set_cursor(x, y);
+	  cursor_set(x, y);
 	}
 	return (1);
       default:
@@ -437,7 +405,7 @@ public:
     }
 
     // Write character
-    if (m_x == WIDTH) putchar('\n');
+    if (m_x == WIDTH) write('\n');
     m_x += 1;
     m_io.set_mode(true);
     m_io.write8b(c);

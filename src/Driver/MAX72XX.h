@@ -69,7 +69,6 @@ public:
    *  DP  A  B  C  D  E  F  G
    * @endcode
    *
-   * @param[in] io adapter, SPI or in/output pin based.
    * @param[in] font program memory (Default NULL).
    */
   MAX72XX(const uint8_t* font = NULL) : LCD::Device()
@@ -110,9 +109,9 @@ public:
       0b10000000, // ?
       0b10000000, // @
       0b01110111, // A
-      0b10000000, // B
+      0b00011111, // B/b
       0b01001110, // C
-      0b10000000, // D
+      0b00111101, // D/d
       0b01001111, // E
       0b01000111, // F
       0b01011110, // G
@@ -145,7 +144,7 @@ public:
       0b00011111, // b
       0b00001101, // c
       0b00111101, // d
-      0b10000000, // e
+      0b01001111, // e/E
       0b01000111, // f
       0b01111011, // g
       0b00010111, // h
@@ -243,7 +242,7 @@ public:
   {
     for (uint8_t reg = DIGIT0; reg <= DIGIT7; reg++)
       set((Register) reg, 0x00);
-    set_cursor(0, 0);
+    cursor_home();
   }
 
   /**
@@ -252,7 +251,7 @@ public:
    * @param[in] x pixel position (0..WIDTH-1).
    * @param[in] y line position (0..LINES-1).
    */
-  virtual void set_cursor(uint8_t x, uint8_t y)
+  virtual void cursor_set(uint8_t x, uint8_t y)
   {
     if (x >= WIDTH) x = 0;
     if (y >= LINES) y = 0;
@@ -279,7 +278,7 @@ public:
     if (c < ' ') {
       switch (c) {
       case '\r': // Carriage-return: move to start of line
-	set_cursor(0, m_y);
+	cursor_set(0, m_y);
 	break;
       case '\f': // Form-feed: clear the display or line-feed: clear line
       case '\n':
@@ -289,16 +288,15 @@ public:
 	{
 	  uint8_t x = m_x + m_tab - (m_x % m_tab);
 	  uint8_t y = m_y + (x >= WIDTH);
-	  set_cursor(x, y);
+	  cursor_set(x, y);
 	}
 	break;
       case '\b': // Back-space: move cursor back one step (if possible)
-	set_cursor(m_x - 1, m_y);
+	cursor_set(m_x - 1, m_y);
+	set((Register) (m_x + 1), 0);
 	break;
-      case '\a': // Alert: blink the backlight
-	display_off();
-	delay(32);
-	display_on();
+      case '\a': // Alert: invert character mode
+	m_mode = ~m_mode;
 	break;
       default:
 	return (0);
@@ -313,7 +311,7 @@ public:
       segments = pgm_read_byte(m_font + c - ' ') | 0x80;
     }
     else {
-      if (m_x == WIDTH) putchar('\n');
+      if (m_x == WIDTH) write('\n');
       m_x += 1;
       m_latest = c;
       segments = pgm_read_byte(m_font + c - ' ');

@@ -1,6 +1,6 @@
 /**
  * @file LCD.h
- * @version 1.0
+ * @version 1.1
  *
  * @section License
  * Copyright (C) 2017, Mikael Patel
@@ -26,14 +26,6 @@ namespace LCD {
 class Device : public Print {
 public:
   /**
-   * Text display mode.
-   */
-  enum {
-    NORMAL_TEXT_MODE = 0x00,
-    INVERTED_TEXT_MODE = 0xff
-  } __attribute__((packed));
-
-  /**
    * Initiate generic LCD device driver.
    */
   Device() :
@@ -57,7 +49,11 @@ public:
    * Stop display and power down. Returns true if successful
    * otherwise false.
    */
-  virtual bool end() = 0;
+  virtual bool end()
+  {
+    display_off();
+    return (true);
+  }
 
   /**
    * @override{LCD::Device}
@@ -76,10 +72,7 @@ public:
    * Set display contrast level.
    * @param[in] level to set.
    */
-  virtual void display_contrast(uint8_t level)
-  {
-    (void) level;
-  }
+  virtual void display_contrast(uint8_t level) { (void) level; }
 
   /**
    * @override{LCD::Device}
@@ -112,11 +105,23 @@ public:
   virtual void display_clear() = 0;
 
   /**
+   * @override{LCD::Device}
+   * Turn cursor blink on.
+   */
+  virtual void cursor_blink_on() {}
+
+  /**
+   * @override{LCD::Device}
+   * Turn cursor blink off.
+   */
+  virtual void cursor_blink_off() {}
+
+  /**
    * Get current cursor position.
    * @param[out] x.
    * @param[out] y.
    */
-  void get_cursor(uint8_t& x, uint8_t& y) const
+  void cursor_get(uint8_t& x, uint8_t& y) const
     __attribute__((always_inline))
   {
     x = m_x;
@@ -124,12 +129,27 @@ public:
   }
 
   /**
-   * @override{LCD:}
+   * @override{LCD::Device}
    * Set cursor position to given position.
    * @param[in] x.
    * @param[in] y.
    */
-  virtual void set_cursor(uint8_t x, uint8_t y) = 0;
+  virtual void cursor_set(uint8_t x, uint8_t y) = 0;
+
+  /**
+   * @override{LCD::Device}
+   * Set cursor to home position (0, 0).
+   */
+  virtual void cursor_home()
+  {
+    cursor_set(0, 0);
+  }
+
+  /**
+   * @override{LCD::Device}
+   * Call frequently to allow cursor blink.
+   */
+  virtual void cursor_update() {}
 
   /**
    * Get tab step.
@@ -152,7 +172,7 @@ public:
   }
 
   /**
-   * Get text mode.
+   * Get text mode. Return 0x00 for normal mode, 0xff inverted mode.
    */
   uint8_t text_mode() const
     __attribute__((always_inline))
@@ -161,13 +181,21 @@ public:
   }
 
   /**
-   * Set text mode.
-   * @param[in] mode new text mode.
+   * Set normal text mode.
    */
-  void text_mode(uint8_t mode)
+  void text_normal_mode()
     __attribute__((always_inline))
   {
-    m_mode = mode;
+    m_mode = 0;
+  }
+
+  /**
+   * Set inverted text mode.
+   */
+  void text_inverted_mode()
+    __attribute__((always_inline))
+  {
+    m_mode = 0xff;
   }
 
 protected:

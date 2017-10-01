@@ -20,6 +20,7 @@
 
 #include "LCD.h"
 #include "Driver/HD44780.h"
+#include "GPIO.h"
 
 /**
  * Adapter for HD44780 (LCD-II) Dot Matix Liquid Crystal Display
@@ -85,16 +86,6 @@ public:
     m_en.output();
     m_bt.output();
     m_bt.high();
-  }
-
-  /**
-   * @override{HD44780::Adapter}
-   * Initiate 4-bit parallel port. Returns false.
-   * @return bool.
-   */
-  virtual bool setup()
-  {
-    return (false);
   }
 
   /**

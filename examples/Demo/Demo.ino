@@ -5,6 +5,7 @@
 #include "Software/TWI.h"
 #include "LCD.h"
 #include "Driver/MAX72XX.h"
+#include "Driver/PCD8544.h"
 #include "Driver/HD44780.h"
 #include "Adapter/Debug.h"
 #include "Adapter/PP7W.h"
@@ -14,26 +15,24 @@
 #include "Adapter/GY_IICLCD.h"
 #include "Adapter/DFRobot_IIC.h"
 
-// Configure: HD44780 Adapter; Debug, Port4b, SR3W or TWI PCF8574
+// Configure: HD44780 Adapter; Debug, PP7W, SR3W or TWI PCF8574
 // LCD::Debug io;
-// LCD::PP7W<> io;
+LCD::PP7W<> io;
 // LCD::SR3W<> io;
-LCD::SR4W<> io;
+// LCD::SR4W<> io;
 // Hardware::TWI twi(400000UL);
 // Software::TWI<BOARD::D18, BOARD::D19> twi;
 // LCD::MJKDZ io(twi);
 // LCD::GY_IICLCD io(twi);
 // LCD::DFRobot_IIC io(twi);
+HD44780 lcd(io);
 
 // MAX72XX<BOARD::D10, BOARD::D11, BOARD::D13> lcd;
-HD44780 lcd(io);
+// PCD8544<> lcd;
 RTC rtc;
 
 void setup()
 {
-  Serial.begin(57600);
-  while (!Serial);
-
   // Set the real-time clock
   struct tm now(WEDNESDAY, 2017, SEPTEMBER, 27, 22, 57, 00);
   rtc.set_time(now);
@@ -42,24 +41,53 @@ void setup()
   lcd.begin();
 
   // Print some different data types
-  if (lcd.WIDTH > 8)
-    lcd.print(F("Hello World"));
-  else
-    lcd.print(F("HELLO"));
+  lcd.print(lcd.WIDTH > 8 ? F("Hello World") : F("HELLO"));
   delay(2000);
+  lcd.display_clear();
+
+  for (int i = 0; i < lcd.WIDTH; i++)
+    lcd.print((char) ('A' + i));
+  delay(2000);
+  for (int i = 0; i < lcd.WIDTH; i++) {
+    lcd.print('\b');
+    delay(200);
+  }
   lcd.display_clear();
 
   lcd.print(-10);
   lcd.print(F(" C"));
   if (lcd.HEIGHT > 1) {
-    lcd.set_cursor(0, 1);
+    lcd.cursor_set(0, 1);
     lcd.print(42.5);
     lcd.print(F(" %RH"));
+  }
+  else {
+    delay(2000);
+    lcd.display_clear();
+    lcd.print(42.5);
+    lcd.print(F(" H"));
   }
   delay(2000);
   lcd.display_clear();
 
-  lcd.print(3.14159265359, 7);
+  uint16_t upper = (1 << lcd.WIDTH) - 1;
+  uint16_t lower = (1 << (lcd.WIDTH - 1));
+  lower = (upper - lower) < 1000 ? lower : upper - 1000;
+  for (uint16_t i = upper; i > lower; i--) {
+    lcd.cursor_home();
+    lcd.print(i, BIN);
+    delay(10);
+  }
+  delay(2000);
+  lcd.display_clear();
+
+  float value = 3.14159265359;
+  for (int i = 0; i < 1000; i++) {
+    lcd.cursor_home();
+    lcd.print(value, 7);
+    value += 0.000001;
+    delay(10);
+  }
   delay(2000);
   lcd.display_clear();
 }
@@ -67,6 +95,7 @@ void setup()
 void loop()
 {
   if (!rtc.tick()) return;
+  lcd.display_clear();
 
   // Get current time
   struct tm now;
@@ -80,7 +109,7 @@ void loop()
   buf[10] = 0;
   if (lcd.HEIGHT == 1) {
     static int n = 1;
-    lcd.set_cursor(0, 0);
+    lcd.cursor_home();
     if (n == 4) {
       lcd.print(buf + 2);
       n = 0;
@@ -91,9 +120,9 @@ void loop()
     }
   }
   else {
-    lcd.set_cursor(0, 0);
+    lcd.cursor_home();
     lcd.print(buf);
-    lcd.set_cursor(0, 1);
+    lcd.cursor_set(0, 1);
     lcd.print(buf + 11);
   }
 }
