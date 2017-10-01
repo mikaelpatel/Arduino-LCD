@@ -35,6 +35,9 @@ Version: 1.2
 
 ## Benchmarks
 
+Note: All measurements are in microseconds. The benchmark fill_screen
+depends on the screen size (i.e. number of characters).
+
 Nr|Operation|PP7W|SR4W|SR3W|TWI(SW)|TWI(100)|TWI(400)|PCD8544
 --|---------|----|----|----|-------|--------|--------|-------
 0|lcd.begin()|54820|49828|54840|58160|58384|55896|4388
