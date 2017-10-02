@@ -34,9 +34,10 @@ Version: 1.2
 * [Benchmark](./examples/Benchmark)
 
 ## Benchmarks
-
-Note: All measurements are in microseconds. The benchmark fill_screen
-depends on the screen size (i.e. number of characters).
+Note: 1) All measurements are in microseconds. They include an overhead
+of calling micros() and the resolution is +-4 us. 2) The benchmark
+fill_screen() depends on the screen size; total number of characters is
+32 (2x16) for HD44780 and 84 (6x14) PCD8544.
 
 Nr|Operation|PP7W|SR4W|SR3W|TWI(SW)|TWI(100)|TWI(400)|PCD8544
 --|---------|----|----|----|-------|--------|--------|-------
