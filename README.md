@@ -3,9 +3,10 @@ The LCD library provides an abstract interface for LCD devices and an
 adapter design pattern to allow device drivers to be reused even when
 LCD device communication changes. The library includes device drivers
 for MAX72XX, HD44780 and PCD8544, and adapter using GPIO, Shift
-Registers, and TWI (PCF8574).
+Registers, and TWI (PCF8574). There is also support
+for the LCD4884 and LCD Keypad Shields.
 
-Version: 1.2
+Version: 1.3
 
 ## Classes
 
@@ -28,7 +29,7 @@ Version: 1.2
 * [GY_IICLCD, PCF8574, TWI](./src/Adapter/GY_IICLCD.h)
 * [MJKDZ, PCF8574, TWI](./src/Adapter/MJKDZ.h)
 
-## Shield Device Drivers
+## Shield Support
 
 * [LCD4884](./src/Shield/LCD4884.h)
 * [LCD_Keypad](./src/Shield/LCD_Keypad.h)
@@ -42,7 +43,7 @@ Version: 1.2
 Note: 1) All measurements are in microseconds. They include an overhead
 of calling micros() and the resolution is +-4 us. 2) The benchmark
 fill_screen() depends on the screen size; total number of characters is
-32 (2x16) for HD44780 and 84 (6x14) PCD8544.
+32 (16x2) for HD44780 and 84 (14x6) PCD8544.
 
 Nr|Operation|PP7W|SR4W|SR3W|TWI(SW)|TWI(100)|TWI(400)|PCD8544
 --|---------|----|----|----|-------|--------|--------|-------

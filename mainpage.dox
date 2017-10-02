@@ -5,9 +5,10 @@ adapter design pattern to allow device drivers to be reused even when
 LCD device communication changes. The library includes device drivers
 for MAX72XX, PCD8544 and HD44780, and adapter using GPIO (LCD::PP7W),
 Shift Registers (LCD::SR3W, LCD::SR4W), and PCF8574 based modules
-(LCD::MJKDZ, LCD::DFRobot_IIC, LCD::GY_IICLCD).
+(LCD::MJKDZ, LCD::DFRobot_IIC, LCD::GY_IICLCD). There is also support
+for the LCD4884 and LCD_Keypad Shields.
 
-Version: 1.2
+Version: 1.3
 */
 
 /** @page License
