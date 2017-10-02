@@ -27,26 +27,26 @@
  * Shift Register 3-Wire Port (SR3W), 74HC595/74HC164 (SR[pin]),
  * with digital output pins.
  *
- * @param[in] SDA_PIN serial data pin (Default BOARD::D7)
- * @param[in] SCL_PIN serial clock pin (Default BOARD::D6)
- * @param[in] EN_PIN enable pulse (Default BOARD::D5)
+ * @param[in] SDA_PIN serial data pin.
+ * @param[in] SCL_PIN serial clock pin.
+ * @param[in] EN_PIN enable pulse.
  *
  * @section Circuit
  * @code
  *                         74HC595    (VCC)
  *                       +----U----+    |
  * (LCD D5)------------1-|Q1    VCC|-16-+
- * (LCD D6)------------2-|Q2     Q0|-15-----------(LCD D4)
- * (LCD D7)------------3-|Q3    SER|-14-----------(SDA/D7)
+ * (LCD D6)------------2-|Q2     Q0|-15--------(LCD D4)
+ * (LCD D7)------------3-|Q3    SER|-14-------(SDA_PIN)
  * (LCD RS)------------4-|Q4    /OE|-13-----------(GND)
- * (LCD BT)------------5-|Q5   RCLK|-12-----------(EN/D5)
- *                     6-|Q6   SCLK|-11-----------(SCL/D6)
+ * (LCD BT)------------5-|Q5   RCLK|-12--------(EN_PIN)
+ *                     6-|Q6   SCLK|-11-------(SCL_PIN)
  *                     7-|Q7    /MR|-10-----------(VCC)
  *                   +-8-|GND   Q6'|--9
  *                   |   +---------+
  *                   |      0.1uF
  *                 (GND)-----||----(VCC)
- * (LCD EN)---------------------------------------(EN/D5)
+ * (LCD EN)------------------------------------(EN_PIN)
  * (LCD RW)---------------------------------------(GND)
  * (LCD K)----------------------------------------(GND)
  * (LCD A)-----------------[330]------------------(VCC)
@@ -56,13 +56,13 @@
  * @code
  *                         74HC164    (VCC)
  *                       +----U----+    |
- * (SDA/D7)----------+-1-|DSA   VCC|-14-+
+ * (SDA_PIN)---------+-1-|DSA   VCC|-14-+
  *                   +-2-|DSB    Q7|-13
  * (LCD D4)------------3-|Q0     Q6|-12
  * (LCD D5)------------4-|Q1     Q5|-11--------(LCD BT)
  * (LCD D6)------------5-|Q2     Q4|-10--------(LCD RS)
  * (LCD D7)------------6-|Q3    /MR|--9-----------(VCC)
- *                   +-7-|GND    CP|--8--------(SCL/D6)
+ *                   +-7-|GND    CP|--8-------(SCL_PIN)
  *                   |   +---------+
  *                   |      0.1uF
  *                 (GND)-----||----(VCC)
@@ -73,9 +73,7 @@
  * @endcode
  */
 namespace LCD {
-template<BOARD::pin_t SDA_PIN = BOARD::D7,
-	 BOARD::pin_t SCL_PIN = BOARD::D6,
-	 BOARD::pin_t EN_PIN = BOARD::D5>
+template<BOARD::pin_t SDA_PIN, BOARD::pin_t SCL_PIN, BOARD::pin_t EN_PIN>
 class SR3W : public HD44780::Adapter {
 public:
   /**

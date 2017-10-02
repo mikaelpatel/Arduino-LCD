@@ -29,12 +29,10 @@
 
 /**
  * Device driver for PCD8544 48x84 pixels matrix LCD controller/driver.
- * Default pins are for LCD4884 Shield.
- * @param[in] RST_PIN reset pin (default BOARD::D6).
- * @param[in] SCE_PIN screen chip enable pin (default BOARD::D5).
- * @param[in] DC_PIN data/command select pin (default BOARD::D4).
- * @param[in] SDIN_PIN screen data pin (default BOARD::D3).
- * @param[in] SCLK_PIN screen clock pin (default BOARD::D2).
+ * @param[in] SCE_PIN screen chip enable pin.
+ * @param[in] DC_PIN data/command select pin.
+ * @param[in] SDIN_PIN screen data pin.
+ * @param[in] SCLK_PIN screen clock pin.
  *
  * @section Circuit
  * PCD8544 is a low voltage device (3V3) and signals require level
@@ -42,7 +40,7 @@
   * @code
  *                         PCD8544/LCD
  *                       +------------+
- * (D6)---------[ > ]--1-|RST         |
+ * (RST)--------[ > ]--1-|RST         |
  * (D5)---------[ > ]--2-|SCE         |
  * (D4)---------[ > ]--3-|DC          |
  * (D3)---------[ > ]--4-|SDIN        |
@@ -51,18 +49,16 @@
  * (GND)--------[220]--7-|LED         |
  * (GND)---------------8-|GND         |
  *                       +------------+
- * (D7)------------------BL (optional)
  * @endcode
  *
  * @section References
  * 1. Product Specification, Philips Semiconductors, 1999 Apr 12.
  * https://www.sparkfun.com/datasheets/LCD/Monochrome/Nokia5110.pdf
  */
-template<BOARD::pin_t RST_PIN = BOARD::D6,
-	 BOARD::pin_t SCE_PIN = BOARD::D5,
-	 BOARD::pin_t DC_PIN = BOARD::D4,
-	 BOARD::pin_t SDIN_PIN = BOARD::D3,
-	 BOARD::pin_t SCLK_PIN = BOARD::D2>
+template<BOARD::pin_t SCE_PIN,
+	 BOARD::pin_t DC_PIN,
+	 BOARD::pin_t SDIN_PIN,
+	 BOARD::pin_t SCLK_PIN>
 class PCD8544 : public LCD::Device {
 public:
   /** Display size. */
@@ -179,14 +175,8 @@ public:
       0x3C, 0x26, 0x23, 0x26, 0x3C,
     };
     m_font = font != NULL ? font : default_font;
-
-    // Initiate reset pulse
-    m_rst.output();
-    m_rst.low();
     m_sce.output();
-    m_sce.low();
     m_dc.output();
-    m_dc.low();
   }
 
   /**
@@ -206,12 +196,12 @@ public:
       DISPLAY_CNTL   | NORMAL_MODE
     };
 
-    // Complete reset pulse and initiate display setting
-    m_rst.high();
+    // Initiate display setting
     m_sce.high();
     write_command_P(script, sizeof(script));
     text_normal_mode();
     display_clear();
+    backlight_on();
     return (true);
   }
 
@@ -224,6 +214,7 @@ public:
   {
     display_clear();
     write_command(SET_FUNC | BASIC_INST | POWER_DOWN_MODE);
+    backlight_off();
     return (true);
   }
 
@@ -388,9 +379,6 @@ protected:
 
   /** Background pattern. */
   static const uint8_t BACKGROUND = 0x00;
-
-  /** Reset pin. */
-  GPIO<RST_PIN> m_rst;
 
   /** Screen chip enable pin. */
   GPIO<SCE_PIN> m_sce;

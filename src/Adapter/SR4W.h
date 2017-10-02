@@ -26,30 +26,30 @@
  * HD44780 (LCD-II) Dot Matix Liquid Crystal Display Controller/Driver
  * Shift Register 4-Wire/8-bit Port, 74HC595 (SR[pin]), with digital
  * output pins.
- * @param[in] SDA_PIN serial data/rs pin (Default D7).
- * @param[in] SCL_PIN serial clock pin (Default D6).
- * @param[in] EN_PIN enable pulse (Default D5).
- * @param[in] BT_PIN backlight control (Default D4).
+ * @param[in] SDA_PIN serial data/rs pin.
+ * @param[in] SCL_PIN serial clock pin.
+ * @param[in] EN_PIN enable pulse.
+ * @param[in] BT_PIN backlight control.
  *
  * @section Circuit
  * @code
  *                         74HC595    (VCC)
  *                       +----U----+    |
  * (LCD D1)------------1-|Q1    VCC|-16-+
- * (LCD D2)------------2-|Q2     Q0|-15-----------(LCD D0)
+ * (LCD D2)------------2-|Q2     Q0|-15--------(LCD D0)
  * (LCD D3)------------3-|Q3    /OE|-13-----------(GND)
- * (LCD D4)------------4-|Q4    SER|-14-----------(SDA/D7)
- * (LCD D5)------------5-|Q5   RCLK|-12-----------(EN/D5)
- * (LCD D6)------------6-|Q6   SCLK|-11-----------(SCL/D6)
+ * (LCD D4)------------4-|Q4    SER|-14-------(SDA_PIN)
+ * (LCD D5)------------5-|Q5   RCLK|-12--------(EN_PIN)
+ * (LCD D6)------------6-|Q6   SCLK|-11--------SCL_PIN)
  * (LCD D7)------------7-|Q7    /MR|-10-----------(VCC)
  *                   +-8-|GND   Q6'|-9
  *                   |   +---------+
  *                   |      0.1uF
  *                 (GND)-----||----(VCC)
  *
- * (LCD RS)---------------------------------------(SDA/D7)
- * (LCD EN)---------------------------------------(EN/D5)
- * (LCD BT)---------------------------------------(BT/D4)
+ * (LCD RS)-----------------------------------(SDA_PIN)
+ * (LCD EN)------------------------------------(EN_PIN)
+ * (LCD BT)------------------------------------(BT_PIN)
  * (LCD RW)---------------------------------------(GND)
  * (LCD K)----------------------------------------(GND)
  * (LCD A)-----------------[330]------------------(VCC)
@@ -59,20 +59,20 @@
  * @code
  *                         74HC164    (VCC)
  *                       +----U----+    |
- * (D7/SDA)----------+-1-|DSA   VCC|-14-+
+ * (SDA_PIN)---------+-1-|DSA   VCC|-14-+
  *                   +-2-|DSB    Q7|-13--------(LCD D7)
  * (LCD D4)------------3-|Q0     Q6|-12--------(LCD D6)
  * (LCD D5)------------4-|Q1     Q5|-11--------(LCD D5)
  * (LCD D6)------------5-|Q2     Q4|-10--------(LCD D4)
  * (LCD D7)------------6-|Q3    /MR|--9-----------(VCC)
- *                   +-7-|GND    CP|--8--------(SCL/D6)
+ *                   +-7-|GND    CP|--8-------(SCL_PIN)
  *                   |   +---------+
  *                   |      0.1uF
  *                 (GND)-----||----(VCC)
  *
- * (LCD RS)---------------------------------------(SDA/D7)
- * (LCD EN)---------------------------------------(EN/D5)
- * (LCD BT)---------------------------------------(BT/D4)
+ * (LCD RS)-----------------------------------(SDA_PIN)
+ * (LCD EN)------------------------------------(EN_PIN)
+ * (LCD BT)------------------------------------(BT_PIN)
  * (LCD RW)---------------------------------------(GND)
  * (LCD K)----------------------------------------(GND)
  * (LCD A)-----------------[330]------------------(VCC)
@@ -86,10 +86,10 @@
  * http://home.iae.nl/users/pouweha/lcd/lcd_examp.shtml#_3
  */
 namespace LCD {
-template<BOARD::pin_t SDA_PIN = BOARD::D7,
-	 BOARD::pin_t SCL_PIN = BOARD::D6,
-	 BOARD::pin_t EN_PIN = BOARD::D5,
-	 BOARD::pin_t BT_PIN = BOARD::D4>
+template<BOARD::pin_t SDA_PIN,
+	 BOARD::pin_t SCL_PIN,
+	 BOARD::pin_t EN_PIN,
+	 BOARD::pin_t BT_PIN>
 class SR4W : public HD44780::Adapter {
 public:
   /**
@@ -108,7 +108,7 @@ public:
 
   /**
    * @override{HD44780::Adapter}
-   * Initiate port for 8-bit serial mode. Returns true(1).
+   * Initiate port for 8-bit serial mode.
    * @return true(1).
    */
   virtual bool setup()

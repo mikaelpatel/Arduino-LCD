@@ -14,21 +14,28 @@
 #include "Adapter/MJKDZ.h"
 #include "Adapter/GY_IICLCD.h"
 #include "Adapter/DFRobot_IIC.h"
+#include "Shield/LCD4884.h"
+#include "Shield/LCD_Keypad.h"
 
 // Configure: HD44780 Adapter; Debug, PP7W, SR3W or TWI PCF8574
 // LCD::Debug io;
-LCD::PP7W<> io;
+// LCD::PP7W<> io;
 // LCD::SR3W<> io;
 // LCD::SR4W<> io;
 // Hardware::TWI twi(400000UL);
+// Hardware::TWI twi;
 // Software::TWI<BOARD::D18, BOARD::D19> twi;
 // LCD::MJKDZ io(twi);
 // LCD::GY_IICLCD io(twi);
 // LCD::DFRobot_IIC io(twi);
-HD44780 lcd(io);
+// HD44780 lcd(io);
 
 // MAX72XX<BOARD::D10, BOARD::D11, BOARD::D13> lcd;
-// PCD8544<> lcd;
+// PCD8544<BAORD::D5, BOARD::D4, BOARD::D3, BOARD::D2> lcd;
+
+// LCD4884 lcd;
+LCD_Keypad lcd;
+
 RTC rtc;
 
 void setup()

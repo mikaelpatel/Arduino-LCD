@@ -51,7 +51,9 @@ public:
    */
   virtual bool end()
   {
+    display_clear();
     display_off();
+    backlight_off();
     return (true);
   }
 

@@ -63,13 +63,13 @@
  * @endcode
  */
 namespace LCD {
-template<BOARD::pin_t D0_PIN = BOARD::D4,
-	 BOARD::pin_t D1_PIN = BOARD::D5,
-	 BOARD::pin_t D2_PIN = BOARD::D6,
-	 BOARD::pin_t D3_PIN = BOARD::D7,
-	 BOARD::pin_t RS_PIN = BOARD::D8,
-	 BOARD::pin_t EN_PIN = BOARD::D9,
-	 BOARD::pin_t BT_PIN = BOARD::D10>
+template<BOARD::pin_t D0_PIN,
+	 BOARD::pin_t D1_PIN,
+	 BOARD::pin_t D2_PIN,
+	 BOARD::pin_t D3_PIN,
+	 BOARD::pin_t RS_PIN,
+	 BOARD::pin_t EN_PIN,
+	 BOARD::pin_t BT_PIN>
 class PP7W : public HD44780::Adapter {
 public:
   /**
