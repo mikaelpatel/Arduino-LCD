@@ -1,6 +1,6 @@
 #include "GPIO.h"
 #include "TWI.h"
-// #include "Hardware/TWI.h"
+#include "Hardware/TWI.h"
 #include "Software/TWI.h"
 #include "LCD.h"
 #include "Driver/PCD8544.h"
