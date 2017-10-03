@@ -61,6 +61,7 @@ void loop()
 
   // Display sensor identity and temperture
   do {
+    delay(2000);
     last = owi.search_rom(sensor.FAMILY_CODE, rom, last);
     if (last == owi.ERROR) break;
     bool res = sensor.read_scratchpad(false);
@@ -86,6 +87,5 @@ void loop()
       lcd.print(F("???"));
     }
     lcd.print(F(" C"));
-    delay(2000);
   } while (last != owi.LAST);
 }

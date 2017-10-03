@@ -54,7 +54,9 @@ public:
    * @param[in] twi bus manager.
    * @param[in] subaddr sub-address (0..7, default 0).
    */
-  GY_IICLCD(TWI& twi, uint8_t subaddr = 0) : MJKDZ(twi, subaddr) {}
+  GY_IICLCD(TWI& twi, uint8_t subaddr = 0) :
+    MJKDZ(twi, subaddr)
+  {}
 };
 };
 

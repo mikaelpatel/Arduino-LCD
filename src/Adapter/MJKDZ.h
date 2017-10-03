@@ -52,7 +52,10 @@ public:
    * I/O expander with given sub-address (A0..A2).
    * @param[in] subaddr sub-address (0..7, default 7).
    */
-  MJKDZ(TWI& twi, uint8_t subaddr = 7) : PCF8574(twi, subaddr), m_port() {}
+  MJKDZ(TWI& twi, uint8_t subaddr = 7) :
+    PCF8574(twi, subaddr),
+    m_port()
+  {}
 
   /**
    * @override{HD44780::Adapter}
@@ -112,7 +115,7 @@ public:
   {
     const uint8_t* bp = (const uint8_t*) buf;
     while (size != 0) {
-      uint8_t tmp[TMP_MAX];
+      uint8_t tmp[32];
       uint8_t n = (size > sizeof(tmp) / 4 ? sizeof(tmp) / 4 : size);
       size -= n;
       uint8_t m = n * 4;
@@ -156,9 +159,6 @@ public:
   }
 
 protected:
-  // Max size of temporary buffer for TWI message (8 encoded bytes)
-  static const uint8_t TMP_MAX = 32;
-
   /** Expander port bit fields; little endian */
   union port_t {
     uint8_t as_uint8;		//!< Unsigned byte access.

@@ -71,7 +71,8 @@ public:
    *
    * @param[in] font program memory (Default NULL).
    */
-  MAX72XX(const uint8_t* font = NULL) : LCD::Device()
+  MAX72XX(const uint8_t* font = NULL) :
+    LCD::Device()
   {
     /** Default font table; SPACE(0x20) to DEL(0x7f). */
     static const uint8_t default_font[] PROGMEM = {

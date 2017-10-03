@@ -36,7 +36,7 @@
  *
  * @section Circuit
  * @code
- *                           HD44780
+ *                          HD44780
  *                       +------------+
  * (GND)---------------1-|VSS         |
  * (VCC)---------------2-|VDD         |
@@ -76,7 +76,8 @@ public:
    * Construct HD44780 7-wire parallel port connected to given command,
    * enable and backlight pin.
    */
-  PP7W() : HD44780::Adapter()
+  PP7W() :
+    HD44780::Adapter()
   {
     m_d0.output();
     m_d1.output();

@@ -22,18 +22,18 @@
 // LCD::SR3W<BOARD::D7, BOARD::D6, BOARD::D5> io;
 // LCD::SR4W<BOARD::D7, BOARD::D6, BOARD::D5, BOARD::D4> io;
 // Software::TWI<BOARD::D18, BOARD::D19> twi;
-// Hardware::TWI twi(100000UL);
+Hardware::TWI twi(100000UL);
 // Hardware::TWI twi(400000UL);
-// LCD::MJKDZ io(twi);
+LCD::MJKDZ io(twi);
 // LCD::GY_IICLCD io(twi);
 // LCD::DFRobot_IIC io(twi);
 
 // Configure: LCD; HD44780, MAX72XX, or PCD8544, LCD4884 or LCD_Keypad
-// HD44780 lcd(io);
+HD44780 lcd(io);
 // MAX72XX<BOARD::D10, BOARD::D11, BOARD::D13> lcd;
 // PCD8544<BAORD::D5, BOARD::D4, BOARD::D3, BOARD::D2> lcd;
 // LCD4884 lcd;
-LCD_Keypad lcd;
+// LCD_Keypad lcd;
 
 RTC rtc;
 
