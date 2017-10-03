@@ -36,9 +36,10 @@ Version: 1.4
 
 ## Example Sketches
 
-* [Demo](./examples/Demo)
-* [Keypad](./examples/Keypad)
-* [Benchmark](./examples/Benchmark)
+* [Demo](./examples/Demo) demonstrate the lcd functions
+* [DS18B20](./examples/DS18B20) display temperature
+* [Keypad](./examples/Keypad) show keypad/joy stick support
+* [Benchmark](./examples/Benchmark) measure performance
 
 ## Benchmarks
 Note: 1) All measurements are in microseconds. They include an overhead
@@ -98,4 +99,5 @@ Nr|Operation|PP7W|SR4W|SR3W|TWI(SW)|TWI(100)|TWI(400)|PCD8544
 ## Dependencies
 
 * [Arduino-GPIO](https://github.com/mikaelpatel/Arduino-GPIO)
+* [Arduino-OWI](https://github.com/mikaelpatel/Arduino-OWI)
 * [Arduino-TWI](https://github.com/mikaelpatel/Arduino-TWI)
