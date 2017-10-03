@@ -8,7 +8,7 @@ Shift Registers (LCD::SR3W, LCD::SR4W), and PCF8574 based modules
 (LCD::MJKDZ, LCD::DFRobot_IIC, LCD::GY_IICLCD). There is also support
 for the LCD4884 and LCD_Keypad Shields.
 
-Version: 1.3
+Version: 1.4
 */
 
 /** @page License

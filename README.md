@@ -4,9 +4,9 @@ adapter design pattern to allow device drivers to be reused even when
 LCD device communication changes. The library includes device drivers
 for MAX72XX, HD44780 and PCD8544, and adapter using GPIO, Shift
 Registers, and TWI (PCF8574). There is also support
-for the LCD4884 and LCD Keypad Shields.
+for the LCD4884 and LCD Keypad Shields including keypad.
 
-Version: 1.3
+Version: 1.4
 
 ## Classes
 
@@ -37,6 +37,7 @@ Version: 1.3
 ## Example Sketches
 
 * [Demo](./examples/Demo)
+* [Keypad](./examples/Keypad)
 * [Benchmark](./examples/Benchmark)
 
 ## Benchmarks

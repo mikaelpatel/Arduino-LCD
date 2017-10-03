@@ -28,8 +28,8 @@
 // Configure: HD44780, PCD8544, LCD4884 or LCD Keypad
 // HD44780 lcd(io);
 // PCD8544<BOARD::D5, BOARD::D4, BOARD::D3, BOARD::D2> lcd;
-// LCD4884 lcd;
-LCD_Keypad lcd;
+LCD4884 lcd;
+// LCD_Keypad lcd;
 
 #define MEASURE(expr)				\
   do {						\

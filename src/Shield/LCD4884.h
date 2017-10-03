@@ -21,28 +21,39 @@
 
 #include "LCD.h"
 #include "GPIO.h"
+#include "Keypad.h"
 #include "Driver/PCD8544.h"
 
 /**
- * Device driver for LCD4884 Shield with PCD8544 display and analog joy stick.
- * Note: The Joy Stick and varible backlight is not yet implemented.
+ * Device drivers for LCD4884 Shield with PCD8544 display and analog
+ * joy stick (SELECT, UP, DOWN, LEFT, and RIGHT).
  */
-class LCD4884 : public PCD8544<BOARD::D5, BOARD::D4, BOARD::D3, BOARD::D2> {
-  typedef PCD8544<BOARD::D5, BOARD::D4, BOARD::D3, BOARD::D2> Display;
+class LCD4884 :
+  public Keypad<A0>,
+  public PCD8544<BOARD::D5, BOARD::D4, BOARD::D3, BOARD::D2>
+{
 public:
+  enum {
+    NO_KEY = 0,
+    UP_KEY,
+    RIGHT_KEY,
+    DOWN_KEY,
+    SELECT_KEY,
+    LEFT_KEY
+  } __attribute__((packed));
+
   /**
-   * Construct display device driver and initiate pins. The parameter
-   * should a 5x7 font in program memory or NULL for the PCD8544 default
-   * font.
+   * Construct shield device driver, and initiate pins and mapping
+   * table for keypad. The font parameter should a 5x7 font in program
+   * memory or NULL for the PCD8544 default font.
    * @param[in] font in program memory (Default NULL).
    */
   LCD4884(const uint8_t* font = NULL) :
-    Display(font)
+    Keypad(keymap()),
+    PCD8544(font)
   {
     m_rst.output();
-    m_rst.low();
     m_bl.output();
-    m_bl.low();
   }
 
   /**
@@ -53,7 +64,7 @@ public:
   virtual bool begin()
   {
     m_rst.high();
-    return (Display::begin());
+    return (PCD8544::begin());
   }
 
   /**
@@ -80,6 +91,19 @@ protected:
 
   /** Backlight pin. */
   GPIO<BOARD::D7> m_bl;
+
+  /**
+   * Return key map, program memory vector in descent order.
+   * @return key map.
+   */
+  const uint16_t* keymap()
+    __attribute__((always_inline))
+  {
+    static const uint16_t map[] PROGMEM = {
+      800, 600, 400, 200, 50, 0
+    };
+    return (map);
+  }
 };
 
 #endif

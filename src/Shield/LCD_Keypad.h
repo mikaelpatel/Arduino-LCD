@@ -21,20 +21,45 @@
 
 #include "LCD.h"
 #include "GPIO.h"
+#include "Keypad.h"
 #include "Driver/HD44780.h"
 #include "Adapter/PP7W.h"
 
 /**
  * Device driver for the LCD_Keypad Shield with HD44780 16x2 display
- * and five keys (select, up, down, left, right).
+ * and five keys (SELECT, UP, DOWN, LEFT, and RIGHT).
  */
-class LCD_Keypad : public HD44780 {
+class LCD_Keypad : public Keypad<A0>, public HD44780 {
 public:
-  LCD_Keypad() : HD44780(m_io) {}
+  enum {
+    NO_KEY = 0,
+    SELECT_KEY,
+    LEFT_KEY,
+    DOWN_KEY,
+    UP_KEY,
+    RIGHT_KEY
+  } __attribute__((packed));
+
+  /** Construct shield with device driver and keypad handler. **/
+  LCD_Keypad() : Keypad(keymap()), HD44780(m_io) {}
 
 protected:
+  /** Parallel Port Adapter for shield. */
   LCD::PP7W<BOARD::D4, BOARD::D5, BOARD::D6, BOARD::D7,
 	    BOARD::D8, BOARD::D9, BOARD::D10> m_io;
+
+  /**
+   * Return key map, program memory vector in descent order.
+   * @return key map.
+   */
+  const uint16_t* keymap()
+    __attribute__((always_inline))
+  {
+    static const uint16_t map[] PROGMEM = {
+      1000, 700, 400, 300, 100, 0
+    };
+    return (map);
+  }
 };
 
 #endif

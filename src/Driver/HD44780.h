@@ -28,7 +28,8 @@
  * back-space, horizontal tab and new-line.
  *
  * @section References
- * 1. Product Specification, Hitachi, HD4478U, ADE-207-272(Z), '99.9, Rev. 0.0.
+ * 1. Product Specification, Hitachi, HD4478U, ADE-207-272(Z),
+ * '99.9, Rev. 0.0.
  */
 class HD44780 : public LCD::Device {
 public:
@@ -162,9 +163,9 @@ public:
 
     // Initialization completed. Turn on the display and backlight
     text_normal_mode();
-    display_clear();
     display_on();
     backlight_on();
+    display_clear();
     return (true);
   }
 
