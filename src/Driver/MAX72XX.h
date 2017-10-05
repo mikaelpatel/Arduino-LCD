@@ -48,7 +48,6 @@ public:
   /** Display size. */
   static const uint8_t WIDTH = 8;
   static const uint8_t HEIGHT = 1;
-  static const uint8_t LINES = 1;
 
   /**
    * Construct display device driver with given io adapter and font.
@@ -242,7 +241,7 @@ public:
   virtual void display_clear()
   {
     for (uint8_t reg = DIGIT0; reg <= DIGIT7; reg++)
-      set((Register) reg, 0x00);
+      set(reg, 0x00);
     cursor_home();
   }
 
@@ -250,12 +249,12 @@ public:
    * @override{LCD::Device}
    * Set cursor to given position.
    * @param[in] x pixel position (0..WIDTH-1).
-   * @param[in] y line position (0..LINES-1).
+   * @param[in] y line position (0..HEIGHT-1).
    */
   virtual void cursor_set(uint8_t x, uint8_t y)
   {
     if (x >= WIDTH) x = 0;
-    if (y >= LINES) y = 0;
+    if (y >= HEIGHT) y = 0;
     m_x = x;
     m_y = y;
   }
@@ -294,7 +293,7 @@ public:
 	break;
       case '\b': // Back-space: move cursor back one step (if possible)
 	cursor_set(m_x - 1, m_y);
-	set((Register) (m_x + 1), 0);
+	set(m_x + 1, 0);
 	break;
       case '\a': // Alert: invert character mode
 	m_mode = ~m_mode;
@@ -319,7 +318,7 @@ public:
     }
 
     // Set the segments of the current digit
-    set((Register) m_x, segments);
+    set(m_x, segments);
     return (1);
   }
 
@@ -327,7 +326,7 @@ protected:
   /**
    * Register Address Map (Table 2, pp 7).
    */
-  enum Register {
+  enum {
     NOP = 0x00,			//!< No-operation.
     DIGIT0 = 0x01,		//!< Digit 0 (encode or segment data).
     DIGIT1 = 0x02,		//!< Digit 1 (encode or segment data).
@@ -349,7 +348,7 @@ protected:
    * @param[in] reg register address.
    * @param[in] value.
    */
-  void set(Register reg, uint8_t value)
+  void set(uint8_t reg, uint8_t value)
   {
     m_sce.toggle();
     m_srpo.write(reg);
