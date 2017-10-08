@@ -27,10 +27,10 @@
 // LCD::PP7W<BOARD::D4, BOARD::D5, BOARD::D6, BOARD::D7, BOARD::D8, BOARD::D9, BOARD::D10> io;
 // LCD::SR3W<BOARD::D7, BOARD::D6, BOARD::D5> io;
 // LCD::SR4W<BOARD::D7, BOARD::D6, BOARD::D5, BOARD::D4> io;
+// Software::TWI<BOARD::D8, BOARD::D9> twi;
 // Software::TWI<BOARD::D18, BOARD::D19> twi;
 // Hardware::TWI twi(100000UL);
 Hardware::TWI twi(400000UL);
-// Software::TWI<BOARD::D18, BOARD::D19> twi;
 // LCD::MJKDZ io(twi);
 LCD::GY_IICLCD io(twi);
 // LCD::DFRobot_IIC io(twi);
@@ -42,7 +42,7 @@ HD44780 lcd(io);
 // LCD4884 lcd;
 // LCD_Keypad lcd;
 
-Software::OWI<BOARD::D2> owi;
+Software::OWI<BOARD::D7> owi;
 DS18B20 sensor(owi);
 
 void setup()
@@ -54,17 +54,18 @@ void loop()
 {
   uint8_t rom[owi.ROM_MAX] = { 0 };
   int8_t last = owi.FIRST;
-  int i = 0;
+  int id = 0;
 
   // Broadcast a convert request to all thermometer sensors
   if (!sensor.convert_request(true)) return;
+  delay(sensor.conversion_time());
 
   // Display sensor identity and temperture
   do {
-    delay(2000);
     last = owi.search_rom(sensor.FAMILY_CODE, rom, last);
     if (last == owi.ERROR) break;
     bool res = sensor.read_scratchpad(false);
+    if (!res) continue;
     lcd.display_clear();
 
     // Display rom identity or sensor sequence number
@@ -75,17 +76,13 @@ void loop()
       }
     }
     else {
-      lcd.print(i++);
+      lcd.print(id++);
       lcd.print(' ');
     }
 
-    // Display temperature if correctly read otherwise error
-    if (res) {
-      lcd.print(sensor.temperature());
-    }
-    else {
-      lcd.print(F("???"));
-    }
+    // Display temperature
+    lcd.print(sensor.temperature());
     lcd.print(F(" C"));
+    delay(1000);
   } while (last != owi.LAST);
 }

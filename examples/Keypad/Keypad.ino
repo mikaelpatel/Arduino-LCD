@@ -4,8 +4,8 @@
 #include "Shield/LCD4884.h"
 
 // Configure: LCD4884 or LCD_Keypad Shield
-// LCD4884 lcd;
-LCD_Keypad lcd;
+LCD4884 lcd;
+// LCD_Keypad lcd;
 
 void setup()
 {

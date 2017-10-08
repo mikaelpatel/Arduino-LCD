@@ -36,10 +36,11 @@ Version: 1.4
 
 ## Example Sketches
 
-* [Demo](./examples/Demo) demonstrate the lcd functions
-* [DS18B20](./examples/DS18B20) display temperature
-* [Keypad](./examples/Keypad) show keypad/joy stick support
 * [Benchmark](./examples/Benchmark) measure performance
+* [Clock](./examples/Clock) display calender and time
+* [Demo](./examples/Demo) demonstrate the lcd functions
+* [Keypad](./examples/Keypad) show keypad/joy stick support
+* [Thermometer](./examples/Thermometer) display temperature
 
 ## Benchmarks
 Note: 1) All measurements are in microseconds. They include an overhead
