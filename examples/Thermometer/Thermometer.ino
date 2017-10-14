@@ -23,14 +23,15 @@
 #include "Shield/LCD_Keypad.h"
 
 // Configure: HD44780 Adapter; Debug, PP7W, SR3W or TWI PCF8574
-// LCD::Debug io;
+// LCD::Debug io(Serial);
 // LCD::PP7W<BOARD::D4, BOARD::D5, BOARD::D6, BOARD::D7, BOARD::D8, BOARD::D9, BOARD::D10> io;
 // LCD::SR3W<BOARD::D7, BOARD::D6, BOARD::D5> io;
 // LCD::SR4W<BOARD::D7, BOARD::D6, BOARD::D5, BOARD::D4> io;
+// Software::TWI<BOARD::D1, BOARD::D2> twi;
 // Software::TWI<BOARD::D8, BOARD::D9> twi;
 // Software::TWI<BOARD::D18, BOARD::D19> twi;
-// Hardware::TWI twi(100000UL);
-Hardware::TWI twi(400000UL);
+Hardware::TWI twi(100000UL);
+// Hardware::TWI twi(400000UL);
 // LCD::MJKDZ io(twi);
 LCD::GY_IICLCD io(twi);
 // LCD::DFRobot_IIC io(twi);
@@ -42,6 +43,7 @@ HD44780 lcd(io);
 // LCD4884 lcd;
 // LCD_Keypad lcd;
 
+// Software::OWI<BOARD::D0> owi;
 Software::OWI<BOARD::D7> owi;
 DS18B20 sensor(owi);
 
@@ -52,7 +54,7 @@ void setup()
 
 void loop()
 {
-  uint8_t rom[owi.ROM_MAX] = { 0 };
+  uint8_t* rom = sensor.rom();
   int8_t last = owi.FIRST;
   int id = 0;
 

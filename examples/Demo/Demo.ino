@@ -17,6 +17,7 @@
 #include "Shield/LCD_Keypad.h"
 
 // Configure: HD44780 Adapter; Debug, PP7W, SR3W or TWI PCF8574
+// LCD::Debug io(Serial);
 // LCD::PP7W<BOARD::D4, BOARD::D5, BOARD::D6, BOARD::D7, BOARD::D8, BOARD::D9, BOARD::D10> io;
 // LCD::SR3W<BOARD::D7, BOARD::D6, BOARD::D5> io;
 // LCD::SR4W<BOARD::D7, BOARD::D6, BOARD::D5, BOARD::D4> io;

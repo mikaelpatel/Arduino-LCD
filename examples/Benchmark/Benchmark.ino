@@ -1,7 +1,7 @@
 #include "GPIO.h"
 #include "TWI.h"
-#include "Hardware/TWI.h"
 #include "Software/TWI.h"
+#include "Hardware/TWI.h"
 #include "LCD.h"
 #include "Driver/PCD8544.h"
 #include "Driver/HD44780.h"
@@ -14,23 +14,24 @@
 #include "Shield/LCD4884.h"
 #include "Shield/LCD_Keypad.h"
 
+
 // Configure: HD44780 Adapter; PP7W, SR3W, SR4W or TWI PCF8574
 // LCD::PP7W<BOARD::D4, BOARD::D5, BOARD::D6, BOARD::D7, BOARD::D8, BOARD::D9, BOARD::D10> io;
 // LCD::SR3W<BOARD::D7, BOARD::D6, BOARD::D5> io;
 // LCD::SR4W<BOARD::D7, BOARD::D6, BOARD::D5, BOARD::D4> io;
 // Software::TWI<BOARD::D8, BOARD::D9> twi;
 // Software::TWI<BOARD::D18, BOARD::D19> twi;
-Hardware::TWI twi(100000UL);
+// Hardware::TWI twi(100000UL);
 // Hardware::TWI twi(400000UL);
 // LCD::MJKDZ io(twi);
-LCD::GY_IICLCD io(twi);
+// LCD::GY_IICLCD io(twi);
 // LCD::DFRobot_IIC io(twi);
 
 // Configure: HD44780, PCD8544, LCD4884 or LCD Keypad
-HD44780 lcd(io);
+// HD44780 lcd(io);
 // PCD8544<BOARD::D5, BOARD::D4, BOARD::D3, BOARD::D2> lcd;
 // LCD4884 lcd;
-// LCD_Keypad lcd;
+LCD_Keypad lcd;
 
 #define MEASURE(expr)				\
   do {						\
